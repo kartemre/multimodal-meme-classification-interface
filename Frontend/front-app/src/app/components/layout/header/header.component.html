@@ -1,0 +1,49 @@
+<header class="home-header">
+  <div class="container">
+    
+    <!-- Logo -->
+    <div class="logo-area">
+      <a routerLink="/home" class="logo-link" aria-label="SAFEBOOK Ana Sayfa">
+        <img src="assets/safebook-logo.png" alt="SAFEBOOK Logo" class="logo-img">
+      </a>
+    </div>
+
+    <!-- Orta: ikonlar (sadece giriş yapmışsa) -->
+    <div class="nav-icons" *ngIf="isAuthenticated">
+      <a routerLink="/home" title="Ana Sayfa">
+        <fa-icon [icon]="faHome"></fa-icon>
+      </a>
+      <a routerLink="/create" title="Yeni Gönderi Oluştur">
+        <fa-icon [icon]="faPlusSquare"></fa-icon>
+      </a>
+    </div>
+
+    <!-- Kullanıcı Alanı -->
+    <div class="user-area">
+      
+      <!-- Giriş yapılmamışsa -->
+      <ng-container *ngIf="!isAuthenticated">
+        <a routerLink="/login" class="btn btn-login">Giriş Yap</a>
+        <a routerLink="/register" class="btn btn-register">Kayıt Ol</a>
+      </ng-container>
+
+      <!-- Giriş yapılmışsa -->
+      <ng-container *ngIf="isAuthenticated">
+        <div class="user-dropdown">
+          <button (click)="toggleDropdown()" class="profile-button" aria-label="Profil Menüsü">
+            <fa-icon [icon]="faUserCircle"></fa-icon>
+            <span class="username">{{ username }}</span>
+            <fa-icon [icon]="faChevronDown"></fa-icon>
+          </button>
+          
+          <ul *ngIf="dropdownOpen" class="dropdown-menu" role="menu">
+            <li role="menuitem"><a routerLink="/profile">Profilim</a></li>
+            <li role="menuitem"><a (click)="logout()">Çıkış Yap</a></li>
+          </ul>
+        </div>
+      </ng-container>
+
+    </div>
+    
+  </div>
+</header>

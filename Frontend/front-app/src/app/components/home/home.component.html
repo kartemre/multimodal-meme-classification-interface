@@ -1,0 +1,61 @@
+<div class="home-container">
+  <!-- Yükleniyor Durumu -->
+  <div class="loading-container" *ngIf="isLoading">
+    <div class="loading-spinner"></div>
+    <p>Gönderiler yükleniyor...</p>
+  </div>
+
+  <!-- Hata Mesajı -->
+  <div class="error-container" *ngIf="error">
+    <p class="error-message">{{ error }}</p>
+    <button class="retry-button" (click)="loadPosts()">Tekrar Dene</button>
+  </div>
+
+  <!-- Gönderi Listesi -->
+  <div class="posts-container" *ngIf="!isLoading && !error">
+    <div class="post-card" *ngFor="let post of posts">
+      <!-- Gönderi Başlığı -->
+      <div class="post-header">
+        <div class="author-info">
+          <img [src]="post.author.profileImageUrl || 'assets/default-avatar.png'" 
+               [alt]="post.author.username" 
+               class="author-avatar">
+          <div class="author-details">
+            <span class="author-name">{{ post.author.username }}</span>
+            <span class="post-time">{{ formatDate(post.createdAt) }}</span>
+          </div>
+        </div>
+        <button class="more-options">
+          <fa-icon [icon]="faEllipsisH"></fa-icon>
+        </button>
+      </div>
+
+      <!-- Gönderi İçeriği -->
+      <div class="post-content">
+        <p class="post-text">{{ post.content }}</p>
+        <img *ngIf="post.imageUrl" 
+             [src]="post.imageUrl" 
+             [alt]="post.content" 
+             class="post-image">
+      </div>
+
+      <!-- Gönderi Etkileşimleri -->
+      <div class="post-actions">
+        <div class="action-buttons">
+          <button class="action-button" (click)="toggleLike(post)" [class.liked]="post.isLiked">
+            <fa-icon [icon]="post.isLiked ? faHeart : farHeart"></fa-icon>
+            <span>{{ post.likes }}</span>
+          </button>
+          <button class="action-button">
+            <fa-icon [icon]="faComment"></fa-icon>
+            <span>{{ post.comments }}</span>
+          </button>
+          <button class="action-button">
+            <fa-icon [icon]="faShare"></fa-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  

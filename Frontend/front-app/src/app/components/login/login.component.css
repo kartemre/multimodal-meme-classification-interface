@@ -1,0 +1,124 @@
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  background-color: #f3f4f8; /* Açık arka plan */
+}
+
+.login-box {
+  background-color: #ffffff;
+  padding: 32px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+  width: 100%;
+  max-width: 360px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.login-box h2 {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 24px;
+  text-align: center;
+  color: #2e2e2e;
+}
+
+.input-group {
+  margin-bottom: 16px;
+}
+
+.input-group {
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.input-group input,
+.password-input-wrapper input {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background-color: #fafbfc;
+  transition: border 0.2s ease;
+  box-sizing: border-box;
+}
+
+/* Şifre alanı wrapper düzeltme */
+.password-input-wrapper {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.password-toggle-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #888;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* Buton */
+.login-button {
+  width: 100%;
+  padding: 12px;
+  font-size: 15px;
+  font-weight: 500;
+  color: white;
+  background-color: #6366f1; /* Açık mor - SafeBook ana rengi */
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.login-button:hover {
+  background-color: #4f46e5;
+}
+
+.login-button:disabled {
+  background-color: #cbd5e1;
+  cursor: not-allowed;
+}
+
+/* Hata */
+.error-message {
+  color: #d32f2f;
+  font-size: 13px;
+  background-color: #fff0f0;
+  padding: 8px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  text-align: left;
+}
+
+/* Ek bağlantılar */
+.extra-links {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 18px;
+  font-size: 13px;
+}
+
+.extra-links a {
+  color: #6366f1;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.extra-links a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .login-box {
+    padding: 24px;
+  }
+}

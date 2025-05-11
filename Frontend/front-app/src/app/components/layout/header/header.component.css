@@ -1,0 +1,170 @@
+/* Genel Header */
+.home-header {
+  background-color: #cfd3fc;
+  border-bottom: 1px solid #dcdcdc;
+  padding: 12px 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+/* İç Container */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Logo */
+.logo-link {
+  display: flex;
+  align-items: center;
+}
+
+.logo-img {
+  height: 36px;
+  object-fit: contain;
+}
+
+/* Navigasyon Menüsü */
+.nav-menu {
+  display: flex;
+  gap: 30px;
+}
+
+.nav-menu a {
+  font-size: 20px;
+  color: #2c2c2c;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.nav-menu a:hover,
+.nav-menu a.active {
+  color: #4f46e5;
+}
+
+/* Kullanıcı Alanı */
+.user-area {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Giriş / Kayıt Butonları */
+.btn {
+  padding: 8px 14px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+}
+
+.btn-login {
+  background-color: #ffffff;
+  color: #333;
+  border: 1px solid #ccc;
+}
+
+.btn-login:hover {
+  background-color: #f3f4f6;
+}
+
+.btn-register {
+  background-color: #4f46e5;
+  color: white;
+}
+
+.btn-register:hover {
+  background-color: #4338ca;
+}
+
+/* Kullanıcı Dropdown */
+.user-dropdown {
+  position: relative;
+}
+
+.profile-button {
+  background: none;
+  border: none;
+  font-size: 15px;
+  color: #333;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.profile-button i {
+  font-size: 20px;
+}
+
+/* Açılır Menü */
+.dropdown-menu {
+  position: absolute;
+  top: 110%;
+  right: 0;
+  background-color: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  list-style: none;
+  padding: 8px 0;
+  min-width: 160px;
+  z-index: 99;
+}
+
+.dropdown-menu li {
+  padding: 10px 16px;
+}
+
+.dropdown-menu li a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  display: block;
+  transition: background-color 0.2s ease;
+}
+
+.dropdown-menu li a:hover {
+  background-color: #f3f4f6;
+  color: #1f2937;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .nav-menu {
+    gap: 16px;
+  }
+
+  .btn {
+    padding: 6px 10px;
+    font-size: 13px;
+  }
+
+  .logo-img {
+    height: 28px;
+  }
+}
+
+.nav-icons {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.nav-icons a {
+  font-size: 20px;
+  color: #2c2c2c;
+  transition: color 0.2s ease;
+  text-decoration: none;
+}
+
+.nav-icons a:hover {
+  color: #4f46e5;
+}

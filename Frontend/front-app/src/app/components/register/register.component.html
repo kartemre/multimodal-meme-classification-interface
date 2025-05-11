@@ -1,0 +1,76 @@
+<div class="register-container">
+  <div class="register-box">
+    <h2>Kayıt Ol</h2>
+
+    <!-- Hata ve Başarı Mesajları -->
+    <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
+    <p *ngIf="successMessage" class="success-message">{{ successMessage }}</p>
+
+    <form (ngSubmit)="register()">
+      <!-- Ad Soyad -->
+      <div class="input-group">
+        <label>Ad</label>
+        <input type="text" [(ngModel)]="registerData.firstName" name="firstName" placeholder="Adınızı girin" required>
+      </div>
+
+      <div class="input-group">
+        <label>Soyad</label>
+        <input type="text" [(ngModel)]="registerData.lastName" name="lastName" placeholder="Soyadınızı girin" required>
+      </div>
+
+      <!-- Kullanıcı Adı -->
+      <div class="input-group">
+        <label>Kullanıcı Adı</label>
+        <input type="text" [(ngModel)]="registerData.username" name="username" placeholder="Kullanıcı adınızı girin" required>
+      </div>
+
+      <!-- E-posta -->
+      <div class="input-group">
+        <label>Email</label>
+        <input type="email" [(ngModel)]="registerData.email" name="email" placeholder="Email adresinizi girin" required>
+      </div>
+
+      <!-- Telefon -->
+      <div class="input-group">
+        <label>Telefon</label>
+        <input type="text" [(ngModel)]="registerData.phone" name="phone" placeholder="Telefon numaranızı girin" required>
+      </div>
+
+      <!-- Şifre -->
+      <div class="input-group password-group">
+        <label>Şifre</label>
+        <div class="password-input-wrapper">
+          <input [type]="showPassword ? 'text' : 'password'" [(ngModel)]="registerData.password" name="password" placeholder="Şifrenizi girin" required>
+          <fa-icon
+            [icon]="showPassword ? faEyeSlash : faEye"
+            (click)="togglePasswordVisibility()"
+            class="password-toggle-icon">
+          </fa-icon>
+        </div>
+      </div>
+
+      <!-- Şifre Tekrar -->
+      <div class="input-group password-group">
+        <label>Şifre Tekrar</label>
+        <div class="password-input-wrapper">
+          <input [type]="showPasswordControl ? 'text' : 'password'" [(ngModel)]="registerData.passwordControl" name="passwordControl" placeholder="Şifrenizi tekrar girin" required>
+          <fa-icon
+            [icon]="showPasswordControl ? faEyeSlash : faEye"
+            (click)="togglePasswordControlVisibility()"
+            class="password-toggle-icon">
+          </fa-icon>
+        </div>
+      </div>
+
+      <!-- Kayıt Ol Butonu -->
+      <button type="submit" [disabled]="isLoading" class="register-button">
+        {{ isLoading ? "Kayıt Yapılıyor..." : "Kayıt Ol" }}
+      </button>
+    </form>
+
+    <!-- Giriş Sayfasına Yönlendirme -->
+    <p class="bottom-text">
+      Zaten hesabınız var mı? <a routerLink="/login">Giriş Yap</a>
+    </p>
+  </div>
+</div>

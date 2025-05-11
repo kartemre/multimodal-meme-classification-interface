@@ -1,0 +1,57 @@
+<div class="add-post-container">
+  <div class="post-form-wrapper">
+    <h2>Yeni Gönderi Oluştur</h2>
+    
+    <form [formGroup]="postForm" (ngSubmit)="onSubmit()" class="post-form">
+      <!-- Metin Alanı -->
+      <div class="form-group">
+        <textarea
+          formControlName="content"
+          placeholder="Ne düşünüyorsun?"
+          class="post-content"
+          [class.error]="postForm.get('content')?.invalid && postForm.get('content')?.touched"
+        ></textarea>
+        <div class="error-message" *ngIf="postForm.get('content')?.invalid && postForm.get('content')?.touched">
+          <span *ngIf="postForm.get('content')?.errors?.['required']">Gönderi içeriği zorunludur.</span>
+          <span *ngIf="postForm.get('content')?.errors?.['maxlength']">Gönderi en fazla 500 karakter olabilir.</span>
+        </div>
+      </div>
+
+      <!-- Resim Yükleme Alanı -->
+      <div class="image-upload-area">
+        <div class="image-preview" *ngIf="imagePreview">
+          <img [src]="imagePreview" alt="Yüklenen resim önizlemesi">
+          <button type="button" class="remove-image" (click)="removeImage()">
+            <fa-icon [icon]="faTimes"></fa-icon>
+          </button>
+        </div>
+        
+        <div class="upload-button-wrapper" *ngIf="!imagePreview">
+          <label for="image-upload" class="upload-button">
+            <fa-icon [icon]="faImage"></fa-icon>
+            <span>Resim Ekle</span>
+          </label>
+          <input
+            type="file"
+            id="image-upload"
+            accept="image/*"
+            (change)="onImageSelected($event)"
+            style="display: none;"
+          >
+        </div>
+      </div>
+
+      <!-- Gönder Butonu -->
+      <div class="form-actions">
+        <button
+          type="submit"
+          class="submit-button"
+          [disabled]="!postForm.valid || isSubmitting"
+        >
+          <span *ngIf="!isSubmitting">Gönder</span>
+          <span *ngIf="isSubmitting">Gönderiliyor...</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div> 
