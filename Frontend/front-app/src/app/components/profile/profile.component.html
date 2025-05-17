@@ -1,14 +1,55 @@
 <div class="profile-container" *ngIf="user">
-  <h2>Profil Bilgileri</h2>
-  <div class="profile-card">
+  <div class="profile-header">
     <img src="https://www.w3schools.com/w3images/avatar2.png" alt="Profil Resmi" class="avatar">
-    <p><strong>Ad:</strong> {{ user.firstName }} {{ user.lastName }}</p>
-    <p><strong>Kullanıcı Adı:</strong> {{ user.username }}</p>
-    <p><strong>Email:</strong> {{ user.email }}</p>
-    <p><strong>Telefon:</strong> {{ user.phone }}</p>
-    <p><strong>Rol:</strong> {{ user.role }}</p>
-    <p><strong>Kayıt Tarihi:</strong> {{ user.createdAt | date:'dd/MM/yyyy' }}</p>
-    
-    <button class="btn btn-danger" (click)="logout()">Çıkış Yap</button>
+    <h2>{{ user.firstName }} {{ user.lastName }}</h2>
+    <p class="username">@{{ user.username }}</p>
+  </div>
+
+  <div class="tab-container">
+    <div class="tab-buttons">
+      <button [class.active]="activeTab === 'posts'" (click)="activeTab = 'posts'">Gönderilerim</button>
+      <button [class.active]="activeTab === 'info'" (click)="activeTab = 'info'">Kullanıcı Bilgileri</button>
+    </div>
+
+    <!-- Gönderiler Tab -->
+    <div class="tab-content" *ngIf="activeTab === 'posts'">
+      <div class="posts-container">
+        <div *ngIf="posts.length === 0" class="no-posts">
+          Henüz gönderi bulunmamaktadır.
+        </div>
+        <div *ngFor="let post of posts" class="post-card">
+          <img [src]="post.imageUrl" alt="Post image" *ngIf="post.imageUrl">
+          <div class="post-content">
+            <p class="post-text">{{ post.content }}</p>
+            <p class="post-date">{{ post.createdAt | date:'dd/MM/yyyy HH:mm' }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Kullanıcı Bilgileri Tab -->
+    <div class="tab-content" *ngIf="activeTab === 'info'">
+      <div class="profile-card">
+        <div class="info-group">
+          <p><strong>Ad Soyad:</strong> {{ user.firstName }} {{ user.lastName }}</p>
+          <p><strong>Kullanıcı Adı:</strong> {{ user.username }}</p>
+          <p><strong>Email:</strong> {{ user.email }}</p>
+          <p><strong>Telefon:</strong> {{ user.phone }}</p>
+          <p><strong>Rol:</strong> {{ user.role }}</p>
+          <p><strong>Kayıt Tarihi:</strong> {{ user.createdAt | date:'dd/MM/yyyy' }}</p>
+        </div>
+
+        <div class="action-buttons">
+          <button class="btn-primary" (click)="sendPasswordResetLink()" [disabled]="isLoading">
+            {{ isLoading ? 'Gönderiliyor...' : 'Şifre Sıfırlama Bağlantısı Gönder' }}
+          </button>
+          <button class="btn-danger" (click)="logout()">Çıkış Yap</button>
+        </div>
+
+        <!-- Mesajlar -->
+        <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
+        <p *ngIf="successMessage" class="success-message">{{ successMessage }}</p>
+      </div>
+    </div>
   </div>
 </div>
