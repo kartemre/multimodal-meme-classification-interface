@@ -145,27 +145,39 @@ namespace BLL.Services
                 return true;
             }
 
-            // Generate reset token
-            var token = GeneratePasswordResetToken();
-            user.PasswordResetToken = token;
-            user.PasswordResetTokenExpiry = DateTime.UtcNow.AddHours(24);
-            
-            await _userRepository.UpdateAsync(user);
-
             try
             {
+                // Generate reset token
+                var token = GeneratePasswordResetToken();
+                
+                // Update user fields
+                user.PasswordResetToken = token;
+                user.PasswordResetTokenExpiry = DateTime.UtcNow.AddHours(24);
+                user.UpdatedTime = DateTime.UtcNow;
+                
+                // Save changes to database
+                await _userRepository.UpdateAsync(user);
+
+                // Send email
                 await _emailService.SendPasswordResetEmailAsync(request.Email, token);
+                
+                return true;
             }
             catch (Exception ex)
             {
-                // Email gönderimi başarısız olursa token'ı temizle
-                user.PasswordResetToken = null;
-                user.PasswordResetTokenExpiry = null;
-                await _userRepository.UpdateAsync(user);
-                throw new BusinessException($"Şifre sıfırlama e-postası gönderilemedi: {ex.Message}");
+                // Log error
+                Console.WriteLine($"Error in ForgotPasswordAsync: {ex.Message}");
+                
+                // Cleanup if needed
+                if (user != null)
+                {
+                    user.PasswordResetToken = null;
+                    user.PasswordResetTokenExpiry = null;
+                    await _userRepository.UpdateAsync(user);
+                }
+                
+                throw new BusinessException($"Şifre sıfırlama işlemi başarısız oldu: {ex.Message}");
             }
-            
-            return true;
         }
 
         public async Task<bool> ValidateResetTokenAsync(string token)

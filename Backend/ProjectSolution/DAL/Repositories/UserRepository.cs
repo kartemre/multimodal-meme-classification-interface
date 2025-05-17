@@ -60,8 +60,26 @@ namespace DAL.Repositories
 
         public async Task UpdateAsync(AppUser user)
         {
-            _context.AppUsers.Update(user);
-            await _context.SaveChangesAsync();
+            try
+            {
+                // Entity state'i açıkça belirt
+                _context.Entry(user).State = EntityState.Modified;
+                
+                // Profile'ı da güncelle
+                if (user.Profile != null)
+                {
+                    _context.Entry(user.Profile).State = EntityState.Modified;
+                }
+
+                // Değişiklikleri kaydet
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                // Hata logla
+                Console.WriteLine($"Error updating user: {ex.Message}");
+                throw; // Hatayı yukarı fırlat
+            }
         }
     }
 }
