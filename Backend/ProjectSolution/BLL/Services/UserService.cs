@@ -17,11 +17,16 @@ namespace BLL.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly IConfiguration _configuration;
+        private readonly IEmailService _emailService;
 
-        public UserService(IUserRepository userRepository, IConfiguration configuration)
+        public UserService(
+            IUserRepository userRepository, 
+            IConfiguration configuration,
+            IEmailService emailService)
         {
             _userRepository = userRepository;
             _configuration = configuration;
+            _emailService = emailService;
         }
 
         public async Task<bool> RegisterAsync(RegisterRequestDto request)
@@ -129,6 +134,83 @@ namespace BLL.Services
             user.Password = BCrypt.Net.BCrypt.HashPassword(changePassword.NewPassword);
             await _userRepository.UpdateAsync(user);
             return true;
+        }
+
+        public async Task<bool> ForgotPasswordAsync(ForgotPasswordRequestDto request)
+        {
+            var user = await _userRepository.GetByEmailAsync(request.Email);
+            if (user == null)
+            {
+                // Güvenlik için kullanıcı bulunamasa bile başarılı mesajı dönüyoruz
+                return true;
+            }
+
+            // Generate reset token
+            var token = GeneratePasswordResetToken();
+            user.PasswordResetToken = token;
+            user.PasswordResetTokenExpiry = DateTime.UtcNow.AddHours(24);
+            
+            await _userRepository.UpdateAsync(user);
+
+            try
+            {
+                await _emailService.SendPasswordResetEmailAsync(request.Email, token);
+            }
+            catch (Exception ex)
+            {
+                // Email gönderimi başarısız olursa token'ı temizle
+                user.PasswordResetToken = null;
+                user.PasswordResetTokenExpiry = null;
+                await _userRepository.UpdateAsync(user);
+                throw new BusinessException($"Şifre sıfırlama e-postası gönderilemedi: {ex.Message}");
+            }
+            
+            return true;
+        }
+
+        public async Task<bool> ValidateResetTokenAsync(string token)
+        {
+            var user = await _userRepository.GetByResetTokenAsync(token);
+            if (user == null)
+                return false;
+
+            if (user.PasswordResetTokenExpiry < DateTime.UtcNow)
+                return false;
+
+            return true;
+        }
+
+        public async Task<bool> ResetPasswordAsync(ResetPasswordDto request)
+        {
+            var user = await _userRepository.GetByResetTokenAsync(request.Token);
+            if (user == null)
+                throw new BusinessException("Invalid or expired reset token.");
+
+            if (user.PasswordResetTokenExpiry < DateTime.UtcNow)
+                throw new BusinessException("Reset token has expired.");
+
+            if (BCrypt.Net.BCrypt.Verify(request.NewPassword, user.Password))
+                throw new BusinessException("New password cannot be the same as the current password.");
+
+            user.PreviousPassword = user.Password;
+            user.Password = BCrypt.Net.BCrypt.HashPassword(request.NewPassword);
+            user.PasswordResetToken = null;
+            user.PasswordResetTokenExpiry = null;
+            user.UpdatedTime = DateTime.Now;
+
+            await _userRepository.UpdateAsync(user);
+            return true;
+        }
+
+        private string GeneratePasswordResetToken()
+        {
+            var randomNumber = new byte[32];
+            using var rng = System.Security.Cryptography.RandomNumberGenerator.Create();
+            rng.GetBytes(randomNumber);
+            return Convert.ToBase64String(randomNumber)
+                .Replace("/", "_")
+                .Replace("+", "-")
+                .Replace("=", "");
         }
 
         private string GenerateJwtToken(AppUser user)

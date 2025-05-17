@@ -18,6 +18,7 @@ namespace BLL
         public static IServiceCollection AddBLLServices(this IServiceCollection services, string connectionString)
         {
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IEmailService, EmailService>();
             //yeni servisler eklenecek
             
 

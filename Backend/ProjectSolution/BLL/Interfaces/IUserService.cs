@@ -14,5 +14,8 @@ namespace BLL.Interfaces
         Task<UserProfileDto> GetProfileAsync(int userId);
         Task<bool> UpdateProfileAsync(UserProfileDto userProfile);
         Task<bool> ChangePasswordAsync(ChangePasswordDto changePassword);
+        Task<bool> ForgotPasswordAsync(ForgotPasswordRequestDto request);
+        Task<bool> ResetPasswordAsync(ResetPasswordDto request);
+        Task<bool> ValidateResetTokenAsync(string token);
     }
 }

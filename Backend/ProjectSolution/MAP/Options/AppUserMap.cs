@@ -26,6 +26,11 @@ namespace MAP.Options
             builder.Property(x => x.PreviousPassword)
                    .HasMaxLength(255);
 
+            builder.Property(x => x.PasswordResetToken)
+                   .HasMaxLength(100);
+
+            builder.Property(x => x.PasswordResetTokenExpiry);
+
             builder.HasOne(x => x.Profile)
                    .WithOne(x => x.User)
                    .HasForeignKey<AppUserProfile>(x => x.Id)

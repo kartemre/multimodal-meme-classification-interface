@@ -39,6 +39,20 @@ namespace DAL.Repositories
                 .FirstOrDefaultAsync(u => u.Id == id);
         }
 
+        public async Task<AppUser> GetByEmailAsync(string email)
+        {
+            return await _context.AppUsers
+                .Include(u => u.Profile)
+                .FirstOrDefaultAsync(u => u.Profile.Mail == email);
+        }
+
+        public async Task<AppUser> GetByResetTokenAsync(string token)
+        {
+            return await _context.AppUsers
+                .Include(u => u.Profile)
+                .FirstOrDefaultAsync(u => u.PasswordResetToken == token);
+        }
+
         public async Task<bool> ExistsAsync(string username)
         {
             return await _context.AppUsers.AnyAsync(u => u.UserName == username);

@@ -12,6 +12,8 @@ namespace DAL.Interfaces
         Task<bool> ExistsAsync(string username);
         Task<AppUser> GetByIdAsync(int userId);
         Task<AppUser> GetByUsernameAsync(string username);
+        Task<AppUser> GetByEmailAsync(string email);
+        Task<AppUser> GetByResetTokenAsync(string token);
         Task AddAsync(AppUser user);
         Task UpdateAsync(AppUser user);
     }
