@@ -116,6 +116,36 @@ export class AuthService {
     return throwError(() => error);
   }
 
+  // Şifre sıfırlama için e-posta gönderme
+  forgotPassword(email: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/user/forgot-password`, { email })
+      .pipe(
+        tap(response => console.log('Şifre sıfırlama e-postası gönderildi:', response)),
+        catchError(this.handleError)
+      );
+  }
+
+  // Şifre sıfırlama token'ının geçerliliğini kontrol etme
+  validateResetToken(token: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/user/validate-reset-token?token=${token}`)
+      .pipe(
+        tap(response => console.log('Token geçerliliği:', response)),
+        catchError(this.handleError)
+      );
+  }
+
+  // Yeni şifre belirleme
+  resetPassword(token: string, newPassword: string, confirmPassword: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/user/reset-password`, {
+      token,
+      newPassword,
+      confirmPassword
+    }).pipe(
+      tap(response => console.log('Şifre başarıyla sıfırlandı:', response)),
+      catchError(this.handleError)
+    );
+  }
+
   private getAuthHeaders() {
     const token = this.getToken();
     const headers = new HttpHeaders({

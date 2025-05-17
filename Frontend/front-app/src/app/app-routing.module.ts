@@ -6,6 +6,8 @@ import { RegisterComponent } from './components/register/register.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { HomeComponent } from './components/home/home.component';
 import { AddPostComponent } from './components/add-post/add-post.component';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
@@ -15,6 +17,8 @@ const routes: Routes = [
     children: [
       { path: 'login', component: LoginComponent },
       { path: 'register', component: RegisterComponent },
+      { path: 'forgot-password', component: ForgotPasswordComponent },
+      { path: 'reset-password', component: ResetPasswordComponent },
       { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
       { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
       { path: 'create', component: AddPostComponent, canActivate: [AuthGuard] },

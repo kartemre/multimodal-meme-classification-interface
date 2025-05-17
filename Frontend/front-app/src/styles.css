@@ -1,1 +1,50 @@
 /* You can add global styles to this file, and also import other style files */
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.mat-typography {
+  font: 400 14px/20px Roboto, "Helvetica Neue", sans-serif;
+  letter-spacing: normal;
+}
+
+/* Genel stil düzenlemeleri */
+.full-width {
+  width: 100%;
+}
+
+.text-center {
+  text-align: center;
+}
+
+/* Material override stilleri */
+.mat-mdc-form-field {
+  width: 100%;
+}
+
+.mat-mdc-card {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Success Snackbar */
+.success-snackbar {
+  --mdc-snackbar-container-color: #4caf50;
+  --mat-mdc-snack-bar-button-color: #fff;
+  --mdc-snackbar-supporting-text-color: #fff;
+}
+
+/* Error Snackbar */
+.error-snackbar {
+  --mdc-snackbar-container-color: #f44336;
+  --mat-mdc-snack-bar-button-color: #fff;
+  --mdc-snackbar-supporting-text-color: #fff;
+}
+
+/* Spinner override */
+.mat-mdc-progress-spinner {
+  --mdc-circular-progress-active-indicator-color: #fff;
+}
