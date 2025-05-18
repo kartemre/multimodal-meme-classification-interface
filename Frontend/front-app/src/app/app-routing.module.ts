@@ -5,10 +5,10 @@ import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { HomeComponent } from './components/home/home.component';
-import { AddPostComponent } from './components/add-post/add-post.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { AuthGuard } from './guards/auth.guard';
+import { CreatePostComponent } from './components/create-post/create-post.component';
 
 const routes: Routes = [
   {
@@ -21,7 +21,7 @@ const routes: Routes = [
       { path: 'reset-password', component: ResetPasswordComponent },
       { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
       { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
-      { path: 'create', component: AddPostComponent, canActivate: [AuthGuard] },
+      { path: 'create-post', component: CreatePostComponent, canActivate: [AuthGuard] },
       { path: '', redirectTo: '/login', pathMatch: 'full' }
     ]
   }

@@ -1,7 +1,7 @@
 .home-container {
   max-width: 600px;
   margin: 0 auto;
-  padding: 1rem;
+  padding: 20px;
 }
 
 /* Yükleniyor Durumu */
@@ -10,8 +10,13 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 2rem;
+  padding: 40px;
   text-align: center;
+}
+
+.loading-container p {
+  margin-top: 16px;
+  color: rgba(0, 0, 0, 0.6);
 }
 
 .loading-spinner {
@@ -32,15 +37,12 @@
 /* Hata Mesajı */
 .error-container {
   text-align: center;
-  padding: 2rem;
-  background: #fff3f3;
-  border-radius: 8px;
-  margin: 1rem 0;
+  padding: 40px;
 }
 
 .error-message {
-  color: #dc3545;
-  margin-bottom: 1rem;
+  color: #f44336;
+  margin-bottom: 16px;
 }
 
 .retry-button {
@@ -59,20 +61,22 @@
 
 /* Gönderi Kartı */
 .post-card {
-  background: white;
+  width: 100%;
+  margin-bottom: 16px;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin-bottom: 1.5rem;
-  overflow: hidden;
 }
 
-/* Gönderi Başlığı */
-.post-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem;
-  border-bottom: 1px solid #eee;
+.post-card mat-card-header {
+  margin-bottom: 16px;
+}
+
+.post-card mat-card-title {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.post-card mat-card-subtitle {
+  font-size: 14px;
 }
 
 .author-info {
@@ -104,41 +108,39 @@
 }
 
 .more-options {
-  background: none;
-  border: none;
-  color: #666;
-  cursor: pointer;
-  padding: 0.5rem;
-  border-radius: 50%;
-  transition: background-color 0.3s;
-}
-
-.more-options:hover {
-  background: #f5f5f5;
+  position: absolute;
+  right: 8px;
+  top: 8px;
 }
 
 /* Gönderi İçeriği */
-.post-content {
-  padding: 1rem;
-}
-
 .post-text {
-  margin-bottom: 1rem;
+  margin-bottom: 16px;
+  white-space: pre-wrap;
   line-height: 1.5;
-  color: #333;
 }
 
 .post-image {
   width: 100%;
-  max-height: 500px;
-  object-fit: cover;
+  max-height: 400px;
+  object-fit: contain;
   border-radius: 4px;
+  margin-bottom: 16px;
+  background-color: #f5f5f5;
 }
 
-/* Gönderi Etkileşimleri */
-.post-actions {
-  padding: 0.75rem 1rem;
-  border-top: 1px solid #eee;
+mat-card-actions {
+  display: flex;
+  padding: 8px;
+  gap: 8px;
+}
+
+mat-card-actions button {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
 }
 
 .action-buttons {
@@ -172,18 +174,38 @@
   background: #fce4ec;
 }
 
+.no-posts {
+  text-align: center;
+  padding: 40px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.no-posts mat-icon {
+  font-size: 48px;
+  height: 48px;
+  width: 48px;
+  color: rgba(0, 0, 0, 0.38);
+  margin-bottom: 16px;
+}
+
+.no-posts p {
+  margin-bottom: 16px;
+  color: rgba(0, 0, 0, 0.6);
+}
+
 /* Responsive Tasarım */
-@media (max-width: 768px) {
+@media (max-width: 600px) {
   .home-container {
-    padding: 0.5rem;
+    padding: 12px;
   }
 
   .post-card {
-    margin-bottom: 1rem;
     border-radius: 0;
   }
 
   .post-image {
-    max-height: 400px;
+    max-height: 300px;
   }
 }

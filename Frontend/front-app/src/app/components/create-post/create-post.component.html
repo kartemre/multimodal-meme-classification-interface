@@ -1,0 +1,67 @@
+<div class="create-post-container mat-elevation-z4">
+  <h2>Yeni Gönderi Oluştur</h2>
+
+  <form [formGroup]="postForm" (ngSubmit)="onSubmit()" class="post-form">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Ne düşünüyorsun?</mat-label>
+      <textarea
+        matInput
+        formControlName="text"
+        rows="4"
+        placeholder="Düşüncelerini paylaş..."
+      ></textarea>
+      <mat-error *ngIf="postForm.get('text')?.errors?.['required'] && (postForm.get('text')?.touched || showValidationMessage)">
+        Metin alanı zorunludur
+      </mat-error>
+    </mat-form-field>
+
+    <div class="file-upload-container">
+      <input
+        #fileInput
+        type="file"
+        id="image"
+        accept="image/*"
+        (change)="onImageSelected($event)"
+        style="display: none"
+      >
+      
+      <button 
+        type="button" 
+        mat-stroked-button 
+        color="primary"
+        (click)="fileInput.click()"
+        class="upload-button"
+      >
+        <mat-icon>add_photo_alternate</mat-icon>
+        Resim Ekle
+      </button>
+
+      <div class="validation-message" *ngIf="!imagePreview && showValidationMessage">
+        <mat-error>
+          Resim eklemek zorunludur
+        </mat-error>
+      </div>
+    </div>
+
+    <div class="image-preview" *ngIf="imagePreview">
+      <img [src]="imagePreview" alt="Seçilen resim">
+      <button type="button" mat-mini-fab color="warn" class="remove-image" (click)="removeImage()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+
+    <div class="button-container">
+      <button 
+        type="submit" 
+        mat-raised-button 
+        color="primary"
+        class="submit-button"
+        [disabled]="isLoading"
+      >
+        <mat-icon>send</mat-icon>
+        <span *ngIf="!isLoading">Paylaş</span>
+        <span *ngIf="isLoading">Paylaşılıyor...</span>
+      </button>
+    </div>
+  </form>
+</div> 

@@ -17,15 +17,16 @@ namespace BLL
     {
         public static IServiceCollection AddBLLServices(this IServiceCollection services, string connectionString)
         {
+            // Service Layer Dependencies
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IEmailService, EmailService>();
-            //yeni servisler eklenecek
-            
+            services.AddScoped<IPostService, PostService>();
 
+            // Repository Layer Dependencies
             services.AddScoped<IUserRepository, UserRepository>();
-            //yeni repositoryler eklenecek
+            services.AddScoped<IPostRepository, PostRepository>();
 
-            // DbContext (Sadece BLL DAL üzerinden çözecek)
+            // DbContext Configuration
             services.AddDbContext<MyContext>(options =>
                 options.UseSqlServer(connectionString));
 

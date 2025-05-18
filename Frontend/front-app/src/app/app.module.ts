@@ -28,12 +28,13 @@ import { HeaderComponent } from './components/layout/header/header.component';
 import { FooterComponent } from './components/layout/footer/footer.component';
 import { MainLayoutComponent } from './components/layout/main-layout/main-layout.component';
 import { HomeComponent } from './components/home/home.component';
-import { AddPostComponent } from './components/add-post/add-post.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { CreatePostComponent } from './components/create-post/create-post.component';
 
 // Services
 import { AuthService } from './services/auth.service';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -45,9 +46,9 @@ import { AuthService } from './services/auth.service';
     FooterComponent,
     MainLayoutComponent,
     HomeComponent,
-    AddPostComponent,
     ForgotPasswordComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    CreatePostComponent
   ],
   imports: [
     BrowserModule,
@@ -71,7 +72,12 @@ import { AuthService } from './services/auth.service';
     MatDividerModule
   ],
   providers: [
-    AuthService
+    AuthService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]

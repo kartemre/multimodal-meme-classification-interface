@@ -79,6 +79,7 @@ builder.Services.AddCors(options =>
 //builder.Services.AddDbContext<MyContext>(options => options.UseSqlServer(connectionString));
 
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IPostService, PostService>();
 
 builder.Services.AddBLLServices(connectionString);
 
@@ -92,9 +93,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseRateLimiter();
+app.UseCors("AllowAll");
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseCors("AllowAll");
 app.MapControllers();
 
 app.Run();
