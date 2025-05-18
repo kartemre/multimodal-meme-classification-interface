@@ -7,9 +7,5 @@ import { Component, OnInit } from '@angular/core';
 })
 
 export class AppComponent {
-  isChatOpen = false;
-  
-  toggleChat(): void {
-    this.isChatOpen = !this.isChatOpen;
-  }
+
 }
