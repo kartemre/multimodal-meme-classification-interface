@@ -16,10 +16,10 @@
     <mat-card class="post-card" *ngFor="let post of posts">
       <!-- Post Header -->
       <mat-card-header>
-        <img mat-card-avatar [src]="post.author?.profileImageUrl || 'assets/default-avatar.png'" [alt]="post.author?.username">
-        <mat-card-title>{{ post.author?.username }}</mat-card-title>
+        <mat-icon mat-card-avatar>account_circle</mat-icon>
+        <mat-card-title>{{ post.userName }}</mat-card-title>
         <mat-card-subtitle>{{ formatDate(post.createdAt) }}</mat-card-subtitle>
-        <button mat-icon-button class="more-options" [matMenuTrigger]="menu">
+        <button mat-icon-button class="more-options" [matMenuTriggerFor]="menu">
           <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #menu="matMenu">

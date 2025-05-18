@@ -58,5 +58,14 @@ namespace DAL.Repositories
                 throw;
             }
         }
+
+        public async Task<List<Post>> GetByUserIdAsync(int userId)
+        {
+            return await _context.Posts
+                .Include(p => p.User)
+                .Where(p => p.UserId == userId)
+                .OrderByDescending(p => p.CreatedTime)
+                .ToListAsync();
+        }
     }
 } 

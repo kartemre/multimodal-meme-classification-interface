@@ -10,11 +10,11 @@
 
     <!-- Orta: ikonlar (sadece giriş yapmışsa) -->
     <div class="nav-icons" *ngIf="isAuthenticated">
-      <a routerLink="/home" title="Ana Sayfa">
-        <fa-icon [icon]="faHome"></fa-icon>
+      <a routerLink="/home" title="Ana Sayfa" mat-icon-button>
+        <mat-icon>home</mat-icon>
       </a>
-      <a routerLink="/create-post" title="Yeni Gönderi Oluştur">
-        <fa-icon [icon]="faPlusSquare"></fa-icon>
+      <a routerLink="/create-post" title="Yeni Gönderi Oluştur" mat-icon-button>
+        <mat-icon>add_box</mat-icon>
       </a>
     </div>
 
@@ -23,23 +23,29 @@
       
       <!-- Giriş yapılmamışsa -->
       <ng-container *ngIf="!isAuthenticated">
-        <a routerLink="/login" class="btn btn-login">Giriş Yap</a>
-        <a routerLink="/register" class="btn btn-register">Kayıt Ol</a>
+        <a routerLink="/login" mat-button color="primary">Giriş Yap</a>
+        <a routerLink="/register" mat-raised-button color="primary">Kayıt Ol</a>
       </ng-container>
 
       <!-- Giriş yapılmışsa -->
       <ng-container *ngIf="isAuthenticated">
         <div class="user-dropdown">
-          <button (click)="toggleDropdown()" class="profile-button" aria-label="Profil Menüsü">
-            <fa-icon [icon]="faUserCircle"></fa-icon>
+          <button mat-button [matMenuTriggerFor]="profileMenu" class="profile-button" aria-label="Profil Menüsü">
+            <mat-icon class="profile-icon">account_circle</mat-icon>
             <span class="username">{{ username }}</span>
-            <fa-icon [icon]="faChevronDown"></fa-icon>
+            <mat-icon>expand_more</mat-icon>
           </button>
           
-          <ul *ngIf="dropdownOpen" class="dropdown-menu" role="menu">
-            <li role="menuitem"><a routerLink="/profile">Profilim</a></li>
-            <li role="menuitem"><a (click)="logout()">Çıkış Yap</a></li>
-          </ul>
+          <mat-menu #profileMenu="matMenu">
+            <button mat-menu-item routerLink="/profile">
+              <mat-icon>person</mat-icon>
+              <span>Profilim</span>
+            </button>
+            <button mat-menu-item (click)="logout()">
+              <mat-icon>exit_to_app</mat-icon>
+              <span>Çıkış Yap</span>
+            </button>
+          </mat-menu>
         </div>
       </ng-container>
 

@@ -1,10 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../environments/environment';
-import { Post } from '../../models/post.model';
-import { faHeart, faComment, faShare, faEllipsisH } from '@fortawesome/free-solid-svg-icons';
-import { faHeart as farHeart } from '@fortawesome/free-regular-svg-icons';
 import { PostService } from '../../services/post.service';
+import { Post } from '../../models/post.model';
 
 @Component({
   selector: 'app-home',
@@ -16,17 +12,7 @@ export class HomeComponent implements OnInit {
   isLoading = true;
   error: string | null = null;
 
-  // FontAwesome icons
-  faHeart = faHeart;
-  farHeart = farHeart;
-  faComment = faComment;
-  faShare = faShare;
-  faEllipsisH = faEllipsisH;
-
-  constructor(
-    private http: HttpClient,
-    private postService: PostService
-  ) {}
+  constructor(private postService: PostService) {}
 
   ngOnInit(): void {
     this.loadPosts();
@@ -37,11 +23,11 @@ export class HomeComponent implements OnInit {
     this.error = null;
 
     this.postService.getPosts().subscribe({
-      next: (posts) => {
+      next: (posts: Post[]) => {
         this.posts = posts;
         this.isLoading = false;
       },
-      error: (error) => {
+      error: (error: any) => {
         console.error('Error loading posts:', error);
         this.error = 'Gönderiler yüklenirken bir hata oluştu.';
         this.isLoading = false;
@@ -55,7 +41,7 @@ export class HomeComponent implements OnInit {
         post.isLiked = !post.isLiked;
         post.likes += post.isLiked ? 1 : -1;
       },
-      error: (error) => {
+      error: (error: any) => {
         console.error('Error toggling like:', error);
         this.error = 'Beğeni işlemi sırasında bir hata oluştu.';
       }

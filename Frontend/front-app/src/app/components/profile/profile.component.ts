@@ -1,15 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
+import { PostService } from '../../services/post.service';
 import { UserProfile } from '../../models/user-profile.model';
+import { Post } from '../../models/post.model';
 import { Router } from '@angular/router';
-
-interface Post {
-  id: string;
-  content: string;
-  imageUrl?: string;
-  createdAt: Date;
-  userId: string;
-}
 
 @Component({
   selector: 'app-profile',
@@ -26,6 +20,7 @@ export class ProfileComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
+    private postService: PostService,
     private router: Router
   ) {}
 
@@ -47,15 +42,18 @@ export class ProfileComponent implements OnInit {
   }
 
   loadUserPosts() {
-    // TODO: Implement post service and call it here
-    // this.postService.getUserPosts().subscribe(
-    //   (posts) => {
-    //     this.posts = posts;
-    //   },
-    //   (error) => {
-    //     console.error('Gönderiler yüklenirken hata oluştu:', error);
-    //   }
-    // );
+    this.isLoading = true;
+    this.postService.getUserPosts().subscribe({
+      next: (posts) => {
+        this.posts = posts;
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Gönderiler yüklenirken hata oluştu:', error);
+        this.errorMessage = 'Gönderiler yüklenirken bir hata oluştu.';
+        this.isLoading = false;
+      }
+    });
   }
 
   sendPasswordResetLink() {

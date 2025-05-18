@@ -9,5 +9,6 @@ namespace DAL.Interfaces
         Task<Post> GetByIdAsync(int id);
         Task UpdateAsync(Post post);
         Task<List<Post>> GetPostsByUserIdAsync(int userId);
+        Task<List<Post>> GetByUserIdAsync(int userId);
     }
 } 

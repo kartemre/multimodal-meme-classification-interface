@@ -16,5 +16,12 @@ namespace BLL.Interfaces
         /// </summary>
         /// <returns>Post listesi</returns>
         Task<List<PostDto>> GetAllPostsAsync();
+
+        /// <summary>
+        /// Belirtilen kullanıcının postlarını getirir
+        /// </summary>
+        /// <param name="userId">Kullanıcı ID</param>
+        /// <returns>Kullanıcının postları</returns>
+        Task<List<PostDto>> GetPostsByUserIdAsync(int userId);
     }
 } 

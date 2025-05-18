@@ -83,5 +83,19 @@ namespace BLL.Services
                 throw new BusinessException("Postlar getirilirken bir hata oluştu.");
             }
         }
+
+        public async Task<List<PostDto>> GetPostsByUserIdAsync(int userId)
+        {
+            var posts = await _postRepository.GetByUserIdAsync(userId);
+            return posts.Select(p => new PostDto
+            {
+                Id = p.Id,
+                Text = p.Text,
+                ImageBase64 = p.ImageData,
+                UserId = p.UserId,
+                UserName = p.User?.UserName,
+                CreatedAt = p.CreatedTime
+            }).ToList();
+        }
     }
 } 

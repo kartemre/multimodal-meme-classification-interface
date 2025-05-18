@@ -14,13 +14,16 @@
     <!-- Gönderiler Tab -->
     <div class="tab-content" *ngIf="activeTab === 'posts'">
       <div class="posts-container">
-        <div *ngIf="posts.length === 0" class="no-posts">
+        <div *ngIf="isLoading" class="loading-spinner">
+          Yükleniyor...
+        </div>
+        <div *ngIf="!isLoading && posts.length === 0" class="no-posts">
           Henüz gönderi bulunmamaktadır.
         </div>
         <div *ngFor="let post of posts" class="post-card">
-          <img [src]="post.imageUrl" alt="Post image" *ngIf="post.imageUrl">
+          <img [src]="post.imageBase64" alt="Post image" *ngIf="post.imageBase64">
           <div class="post-content">
-            <p class="post-text">{{ post.content }}</p>
+            <p class="post-text">{{ post.text }}</p>
             <p class="post-date">{{ post.createdAt | date:'dd/MM/yyyy HH:mm' }}</p>
           </div>
         </div>

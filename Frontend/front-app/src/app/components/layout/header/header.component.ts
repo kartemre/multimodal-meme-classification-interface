@@ -2,7 +2,6 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { Subscription } from 'rxjs';
-import { faHome, faPlusSquare, faUserCircle, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-header',
@@ -14,12 +13,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   username: string | null = null;
   dropdownOpen: boolean = false;
   private authSubscription!: Subscription;
-
-  // FontAwesome ikonları
-  faHome = faHome;
-  faPlusSquare = faPlusSquare;
-  faUserCircle = faUserCircle;
-  faChevronDown = faChevronDown;
 
   constructor(private authService: AuthService, private router: Router) {
     console.log('Header Component Constructor - Initial Auth Status:', this.authService.isAuthenticated());

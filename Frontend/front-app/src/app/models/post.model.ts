@@ -1,13 +1,10 @@
 export interface Post {
   id: number;
-  content: string;
-  imageUrl?: string;
+  text: string;
+  imageBase64: string;
   createdAt: string;
-  author: {
-    id: number;
-    username: string;
-    profileImageUrl?: string;
-  };
+  userId: number;
+  userName: string;
   likes: number;
   comments: number;
   isLiked: boolean;

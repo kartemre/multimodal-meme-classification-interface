@@ -69,5 +69,28 @@ namespace ChatApi.Controllers
                 return StatusCode(500, new { error = "Postlar getirilirken bir hata oluştu." });
             }
         }
+
+        [HttpGet("user")]
+        [Authorize]
+        public async Task<IActionResult> GetUserPosts()
+        {
+            try
+            {
+                var userId = int.Parse(User?.Claims.FirstOrDefault(c => c.Type == "userId")?.Value ?? "0");
+                if (userId == 0)
+                    return Unauthorized(new { error = "User ID not found in token." });
+
+                var posts = await _postService.GetPostsByUserIdAsync(userId);
+                return Ok(new { 
+                    success = true, 
+                    data = posts 
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Kullanıcı postlarını getirme hatası: {ex.Message}");
+                return StatusCode(500, new { error = "Kullanıcı postları getirilirken bir hata oluştu." });
+            }
+        }
     }
 } 

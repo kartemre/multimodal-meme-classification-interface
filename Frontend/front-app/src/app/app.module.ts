@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // Material Modules
@@ -56,8 +55,6 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    FontAwesomeModule,
-    RouterModule,
     BrowserAnimationsModule,
     // Material Modules
     MatButtonModule,
