@@ -17,6 +17,7 @@ export class AuthService {
   authStatus = this.authStatusSubject.asObservable();
   private chatResetSubject = new BehaviorSubject<boolean>(false);
   chatReset$ = this.chatResetSubject.asObservable();
+
   constructor(private http: HttpClient) { }
 
   // Kullanıcı Kaydı

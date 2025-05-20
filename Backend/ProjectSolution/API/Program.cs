@@ -6,6 +6,8 @@ using System.Threading.RateLimiting;
 using BLL.Services;
 using BLL.Interfaces;
 using BLL;
+using DAL.Context;
+using DAL.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 var tokenKey = builder.Configuration["Token:SecurityKey"];
@@ -20,13 +22,13 @@ builder.Services.AddAuthentication(options =>
 {
     options.TokenValidationParameters = new TokenValidationParameters
     {
-        ValidateIssuer = true,                                      //HNAG? S?TELER DENETLEMEYE ?Z?N VER?CEK
-        ValidateAudience = true,                                    //?Z?N VER?LEN S?TELER DENETLEN?CEK
-        ValidateLifetime = true,                                    //TOKEN?N YA?AM SÜRES?N? KONTROL EDER
-        ValidateIssuerSigningKey = true,                            //TOKEN?N B?ZE A?T OLUP OLMADI?INI KONTROL EDER
-        ValidIssuer = builder.Configuration["Token:Issuer"],          //TOKEN?N K?M?N TARAFINDAN OLU?TURULDU?UNU KONTROL EDER
-        ValidAudience = builder.Configuration["Token:Audience"],      //TOKEN?N K?ME A?T OLDU?UNU KONTROL EDER
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenKey)), //TOKENIN B?ZE A?T OLUP OLMADI?INI KONTROL EDER
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = builder.Configuration["Token:Issuer"],
+        ValidAudience = builder.Configuration["Token:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenKey)),
         ClockSkew = TimeSpan.Zero
     };
 });
@@ -38,7 +40,6 @@ builder.Services.AddRateLimiter(options =>
 
     options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
 
-    // IP bazl? rate limiting politikas?
     options.AddPolicy("PartnerApiRateLimit", context =>
         RateLimitPartition.GetFixedWindowLimiter(
             partitionKey: context.Connection.RemoteIpAddress?.ToString() ?? "global",
@@ -50,7 +51,6 @@ builder.Services.AddRateLimiter(options =>
             }
         ));
 
-    // Reddedilen istekler için özel mesaj
     options.OnRejected = async (context, _) =>
     {
         await context.HttpContext.Response.WriteAsync("Too many requests. Please try again later.");
@@ -85,6 +85,22 @@ builder.Services.AddBLLServices(connectionString);
 
 var app = builder.Build();
 
+// Initialize database
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var context = services.GetRequiredService<MyContext>();
+        await DbInitializer.Initialize(context);
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "An error occurred while initializing the database.");
+    }
+}
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -96,6 +112,8 @@ app.UseRateLimiter();
 app.UseCors("AllowAll");
 app.UseAuthentication();
 app.UseAuthorization();
+// app.UseMiddleware<ExceptionMiddleware>(); // Uncomment if ExceptionMiddleware exists
+
 app.MapControllers();
 
 app.Run();

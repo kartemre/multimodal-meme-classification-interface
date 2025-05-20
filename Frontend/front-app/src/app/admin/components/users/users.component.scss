@@ -1,0 +1,87 @@
+.users-container {
+  padding: 24px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+
+  h1 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 500;
+    color: #333;
+  }
+
+  button {
+    mat-icon {
+      margin-right: 8px;
+    }
+  }
+}
+
+.filter-container {
+  margin-bottom: 24px;
+
+  mat-form-field {
+    width: 100%;
+    max-width: 400px;
+  }
+}
+
+.table-container {
+  overflow: auto;
+
+  table {
+    width: 100%;
+  }
+
+  .mat-mdc-row {
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.04);
+    }
+  }
+
+  .mat-mdc-header-cell {
+    font-weight: 500;
+    color: #333;
+  }
+
+  .mat-mdc-cell {
+    color: #666;
+  }
+}
+
+mat-chip {
+  &.mat-mdc-chip {
+    min-height: 24px;
+    font-size: 12px;
+  }
+}
+
+mat-slide-toggle {
+  margin: 8px 0;
+}
+
+.mat-column-actions {
+  width: 120px;
+  text-align: center;
+
+  button {
+    margin: 0 4px;
+  }
+}
+
+.mat-column-id {
+  width: 80px;
+}
+
+.mat-column-role {
+  width: 120px;
+}
+
+.mat-column-status {
+  width: 150px;
+} 

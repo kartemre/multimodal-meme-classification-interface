@@ -1,0 +1,90 @@
+<div class="reports-container">
+  <div class="header">
+    <h1>Reports</h1>
+    <mat-form-field>
+      <mat-label>Status Filter</mat-label>
+      <mat-select>
+        <mat-option value="all">All</mat-option>
+        <mat-option value="pending">Pending</mat-option>
+        <mat-option value="under_review">Under Review</mat-option>
+        <mat-option value="resolved">Resolved</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="filter-container">
+    <mat-form-field>
+      <mat-label>Filter</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Search reports..." #input>
+    </mat-form-field>
+  </div>
+
+  <div class="table-container mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" matSort>
+      <!-- ID Column -->
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+        <td mat-cell *matCellDef="let row">{{row.id}}</td>
+      </ng-container>
+
+      <!-- Reporter Column -->
+      <ng-container matColumnDef="reporter">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Reporter</th>
+        <td mat-cell *matCellDef="let row">{{row.reporter}}</td>
+      </ng-container>
+
+      <!-- Reported Content Column -->
+      <ng-container matColumnDef="reportedContent">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Reported Content</th>
+        <td mat-cell *matCellDef="let row">{{row.reportedContent}}</td>
+      </ng-container>
+
+      <!-- Reason Column -->
+      <ng-container matColumnDef="reason">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Reason</th>
+        <td mat-cell *matCellDef="let row">
+          <mat-chip [color]="getReasonColor(row.reason)" selected>
+            {{row.reason}}
+          </mat-chip>
+        </td>
+      </ng-container>
+
+      <!-- Status Column -->
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+        <td mat-cell *matCellDef="let row">
+          <mat-chip [color]="getStatusColor(row.status)" selected>
+            {{row.status}}
+          </mat-chip>
+        </td>
+      </ng-container>
+
+      <!-- Created At Column -->
+      <ng-container matColumnDef="createdAt">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Created At</th>
+        <td mat-cell *matCellDef="let row">{{row.createdAt}}</td>
+      </ng-container>
+
+      <!-- Actions Column -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let row">
+          <button mat-icon-button color="primary" (click)="viewReport(row)" matTooltip="View Report">
+            <mat-icon>visibility</mat-icon>
+          </button>
+          <button mat-icon-button color="accent" (click)="resolveReport(row)" matTooltip="Resolve Report">
+            <mat-icon>check_circle</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="deleteReport(row)" matTooltip="Delete Report">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of reports"></mat-paginator>
+  </div>
+</div> 

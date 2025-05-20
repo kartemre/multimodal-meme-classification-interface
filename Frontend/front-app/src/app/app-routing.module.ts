@@ -9,6 +9,7 @@ import { ForgotPasswordComponent } from './components/forgot-password/forgot-pas
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { AuthGuard } from './guards/auth.guard';
 import { CreatePostComponent } from './components/create-post/create-post.component';
+import { AdminGuard } from './guards/admin.guard';
 
 const routes: Routes = [
   {
@@ -24,6 +25,14 @@ const routes: Routes = [
       { path: 'create-post', component: CreatePostComponent, canActivate: [AuthGuard] },
       { path: '', redirectTo: '/login', pathMatch: 'full' }
     ]
+  },
+  {
+    path: 'admin',
+    loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule)
+  },
+  {
+    path: '**',
+    redirectTo: '/login'
   }
 ];
 

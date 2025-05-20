@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { LoginRequest } from '../../models/login-request.model';
@@ -9,7 +9,7 @@ import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'; // FontAw
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   username: string = '';
   password: string = '';
   errorMessage: string = '';
@@ -19,6 +19,12 @@ export class LoginComponent {
   faEyeSlash = faEyeSlash;
 
   constructor(private authService: AuthService, private router: Router) {}
+
+  ngOnInit(): void {
+    if (this.authService.isAuthenticated()) {
+      this.router.navigate(['/home']);
+    }
+  }
 
   login() {
     if (!this.username.trim() || !this.password.trim()) {

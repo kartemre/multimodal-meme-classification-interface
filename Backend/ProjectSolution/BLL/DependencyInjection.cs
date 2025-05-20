@@ -21,10 +21,12 @@ namespace BLL
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<IPostService, PostService>();
+            services.AddScoped<IAdminService, AdminService>();
 
             // Repository Layer Dependencies
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IPostRepository, PostRepository>();
+            services.AddScoped<IAdminRepository, AdminRepository>();
 
             // DbContext Configuration
             services.AddDbContext<MyContext>(options =>

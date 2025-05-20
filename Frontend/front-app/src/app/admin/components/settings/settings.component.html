@@ -1,0 +1,179 @@
+<div class="settings-container">
+  <h1>System Settings</h1>
+
+  <mat-tab-group>
+    <!-- General Settings -->
+    <mat-tab label="General">
+      <div class="tab-content">
+        <form [formGroup]="generalSettingsForm" (ngSubmit)="saveGeneralSettings()">
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title>General Settings</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="form-row">
+                <mat-form-field appearance="outline">
+                  <mat-label>Site Name</mat-label>
+                  <input matInput formControlName="siteName">
+                  <mat-error *ngIf="generalSettingsForm.get('siteName')?.hasError('required')">
+                    Site name is required
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Site Description</mat-label>
+                  <textarea matInput formControlName="siteDescription" rows="3"></textarea>
+                  <mat-error *ngIf="generalSettingsForm.get('siteDescription')?.hasError('required')">
+                    Site description is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="form-row">
+                <mat-form-field appearance="outline">
+                  <mat-label>Default Language</mat-label>
+                  <mat-select formControlName="defaultLanguage">
+                    <mat-option value="en">English</mat-option>
+                    <mat-option value="es">Spanish</mat-option>
+                    <mat-option value="fr">French</mat-option>
+                    <mat-option value="de">German</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <div class="form-row">
+                <mat-slide-toggle formControlName="maintenanceMode" color="primary">
+                  Maintenance Mode
+                </mat-slide-toggle>
+
+                <mat-slide-toggle formControlName="allowRegistration" color="primary">
+                  Allow User Registration
+                </mat-slide-toggle>
+              </div>
+            </mat-card-content>
+            <mat-card-actions>
+              <button mat-raised-button color="primary" type="submit" [disabled]="generalSettingsForm.invalid">
+                Save Changes
+              </button>
+            </mat-card-actions>
+          </mat-card>
+        </form>
+      </div>
+    </mat-tab>
+
+    <!-- Notification Settings -->
+    <mat-tab label="Notifications">
+      <div class="tab-content">
+        <form [formGroup]="notificationSettingsForm" (ngSubmit)="saveNotificationSettings()">
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title>Notification Settings</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="form-row">
+                <mat-slide-toggle formControlName="emailNotifications" color="primary">
+                  Email Notifications
+                </mat-slide-toggle>
+
+                <mat-slide-toggle formControlName="pushNotifications" color="primary">
+                  Push Notifications
+                </mat-slide-toggle>
+
+                <mat-slide-toggle formControlName="notificationSound" color="primary">
+                  Notification Sound
+                </mat-slide-toggle>
+              </div>
+
+              <div class="form-row">
+                <mat-form-field appearance="outline">
+                  <mat-label>Notification Email</mat-label>
+                  <input matInput formControlName="notificationEmail" type="email">
+                  <mat-error *ngIf="notificationSettingsForm.get('notificationEmail')?.hasError('required')">
+                    Email is required
+                  </mat-error>
+                  <mat-error *ngIf="notificationSettingsForm.get('notificationEmail')?.hasError('email')">
+                    Please enter a valid email address
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </mat-card-content>
+            <mat-card-actions>
+              <button mat-raised-button color="primary" type="submit" [disabled]="notificationSettingsForm.invalid">
+                Save Changes
+              </button>
+            </mat-card-actions>
+          </mat-card>
+        </form>
+      </div>
+    </mat-tab>
+
+    <!-- Security Settings -->
+    <mat-tab label="Security">
+      <div class="tab-content">
+        <form [formGroup]="securitySettingsForm" (ngSubmit)="saveSecuritySettings()">
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title>Security Settings</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="form-row">
+                <mat-slide-toggle formControlName="twoFactorAuth" color="primary">
+                  Enable Two-Factor Authentication
+                </mat-slide-toggle>
+              </div>
+
+              <div class="form-row">
+                <mat-form-field appearance="outline">
+                  <mat-label>Session Timeout (minutes)</mat-label>
+                  <input matInput formControlName="sessionTimeout" type="number">
+                  <mat-error *ngIf="securitySettingsForm.get('sessionTimeout')?.hasError('required')">
+                    Session timeout is required
+                  </mat-error>
+                  <mat-error *ngIf="securitySettingsForm.get('sessionTimeout')?.hasError('min')">
+                    Minimum session timeout is 5 minutes
+                  </mat-error>
+                  <mat-error *ngIf="securitySettingsForm.get('sessionTimeout')?.hasError('max')">
+                    Maximum session timeout is 120 minutes
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Password Expiry (days)</mat-label>
+                  <input matInput formControlName="passwordExpiry" type="number">
+                  <mat-error *ngIf="securitySettingsForm.get('passwordExpiry')?.hasError('required')">
+                    Password expiry is required
+                  </mat-error>
+                  <mat-error *ngIf="securitySettingsForm.get('passwordExpiry')?.hasError('min')">
+                    Minimum password expiry is 30 days
+                  </mat-error>
+                  <mat-error *ngIf="securitySettingsForm.get('passwordExpiry')?.hasError('max')">
+                    Maximum password expiry is 365 days
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Max Login Attempts</mat-label>
+                  <input matInput formControlName="maxLoginAttempts" type="number">
+                  <mat-error *ngIf="securitySettingsForm.get('maxLoginAttempts')?.hasError('required')">
+                    Max login attempts is required
+                  </mat-error>
+                  <mat-error *ngIf="securitySettingsForm.get('maxLoginAttempts')?.hasError('min')">
+                    Minimum login attempts is 3
+                  </mat-error>
+                  <mat-error *ngIf="securitySettingsForm.get('maxLoginAttempts')?.hasError('max')">
+                    Maximum login attempts is 10
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </mat-card-content>
+            <mat-card-actions>
+              <button mat-raised-button color="primary" type="submit" [disabled]="securitySettingsForm.invalid">
+                Save Changes
+              </button>
+            </mat-card-actions>
+          </mat-card>
+        </form>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div> 
