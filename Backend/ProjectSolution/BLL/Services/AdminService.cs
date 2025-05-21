@@ -9,6 +9,7 @@ using Entities.Enums;
 using Entities.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using System.Linq;
 
 namespace BLL.Services
 {
@@ -75,11 +76,38 @@ namespace BLL.Services
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        public Task<List<AppUser>> GetAllUsersAsync() => _adminRepository.GetAllUsersAsync();
+        public async Task<List<UserListDto>> GetAllUsersAsync()
+        {
+            var users = await _adminRepository.GetAllUsersAsync();
+            return users.Select(u => new UserListDto
+            {
+                Id = u.Id,
+                Username = u.UserName,
+                Email = u.Profile?.Mail ?? string.Empty,
+                IsActive = u.IsActive,
+                IsDeleted = u.DeletedTime.HasValue,
+                CreatedAt = u.CreatedTime.ToString("yyyy-MM-ddTHH:mm:ss")
+            }).ToList();
+        }
+
         public Task<bool> DeleteUserAsync(int id) => _adminRepository.DeleteUserAsync(id);
         public Task<bool> ToggleUserStatusAsync(int id) => _adminRepository.ToggleUserStatusAsync(id);
 
-        public Task<List<Post>> GetAllPostsAsync() => _adminRepository.GetAllPostsAsync();
+        public async Task<List<AdminPostDto>> GetAllPostsAsync()
+        {
+            var posts = await _adminRepository.GetAllPostsAsync();
+            return posts.Select(p => new AdminPostDto
+            {
+                Id = p.Id,
+                Title = p.Text.Length > 50 ? p.Text.Substring(0, 47) + "..." : p.Text,
+                Author = p.User?.UserName ?? "Unknown",
+                Category = "General", // You might want to add a category field to your Post model
+                Status = p.IsActive ? "published" : "draft",
+                CreatedAt = p.CreatedTime.ToString("yyyy-MM-ddTHH:mm:ss"),
+                ImageBase64 = p.ImageData
+            }).ToList();
+        }
+
         public Task<bool> DeletePostAsync(int id) => _adminRepository.DeletePostAsync(id);
     }
 } 

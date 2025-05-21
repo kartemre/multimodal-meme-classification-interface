@@ -7,11 +7,11 @@ namespace BLL.Interfaces
 {
     public interface IAdminService
     {
-        Task<List<AppUser>> GetAllUsersAsync();
+        Task<List<UserListDto>> GetAllUsersAsync();
         Task<bool> DeleteUserAsync(int id);
         Task<bool> ToggleUserStatusAsync(int id);
 
-        Task<List<Post>> GetAllPostsAsync();
+        Task<List<AdminPostDto>> GetAllPostsAsync();
         Task<bool> DeletePostAsync(int id);
 
         Task<LoginResponseDto> AdminLoginAsync(LoginRequestDto request);

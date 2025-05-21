@@ -38,6 +38,7 @@ namespace API.Controllers
             return Ok(new { message = "Admin access successful" });
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("users")]
         public async Task<IActionResult> GetAllUsers()
         {
@@ -45,6 +46,7 @@ namespace API.Controllers
             return Ok(users);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("users/{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {
@@ -54,6 +56,7 @@ namespace API.Controllers
             return NotFound(new { message = "Kullanıcı bulunamadı" });
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut("users/{id}/toggle-status")]
         public async Task<IActionResult> ToggleUserStatus(int id)
         {
@@ -63,6 +66,7 @@ namespace API.Controllers
             return NotFound(new { message = "Kullanıcı bulunamadı" });
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("posts")]
         public async Task<IActionResult> GetAllPosts()
         {
@@ -70,6 +74,7 @@ namespace API.Controllers
             return Ok(posts);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("posts/{id}")]
         public async Task<IActionResult> DeletePost(int id)
         {
