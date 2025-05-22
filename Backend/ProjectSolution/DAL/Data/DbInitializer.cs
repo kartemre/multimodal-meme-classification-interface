@@ -28,9 +28,9 @@ namespace DAL.Data
                     Profile = new AppUserProfile
                     {
                         FirstName = "Admin",
-                        LastName = "User",
-                        Mail = "admin@example.com",
-                        PhoneNumber = "1234567890",
+                        LastName = "Kart",
+                        Mail = "kartemre3403@gmail.com",
+                        PhoneNumber = "5066405389",
                         Role = UserRoles.Admin,
                         CreatedTime = DateTime.UtcNow
                     }

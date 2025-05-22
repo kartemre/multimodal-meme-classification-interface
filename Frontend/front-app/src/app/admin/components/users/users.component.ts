@@ -4,6 +4,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { AdminService, User } from '../../services/admin.service';
 
 @Component({
   selector: 'app-users',
@@ -11,42 +12,45 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./users.component.scss']
 })
 export class UsersComponent implements OnInit {
-  displayedColumns: string[] = ['id', 'username', 'email', 'role', 'status', 'actions'];
-  dataSource: MatTableDataSource<any>;
+  displayedColumns: string[] = ['id', 'username', 'email', 'isActive', 'createdAt', 'actions'];
+  dataSource: MatTableDataSource<User>;
+  isLoading = false;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(
+    private adminService: AdminService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar
   ) {
-    // Initialize with sample data
-    const users = [
-      {
-        id: 1,
-        username: 'admin',
-        email: 'admin@example.com',
-        role: 'admin',
-        status: 'active'
-      },
-      {
-        id: 2,
-        username: 'user1',
-        email: 'user1@example.com',
-        role: 'user',
-        status: 'active'
-      }
-    ];
-
-    this.dataSource = new MatTableDataSource(users);
+    this.dataSource = new MatTableDataSource<User>([]);
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.loadUsers();
+  }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+  }
+
+  loadUsers() {
+    this.isLoading = true;
+    this.adminService.getAllUsers().subscribe({
+      next: (users) => {
+        this.dataSource.data = users;
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Error loading users:', error);
+        this.snackBar.open('Kullanıcılar yüklenirken bir hata oluştu', 'Kapat', {
+          duration: 3000
+        });
+        this.isLoading = false;
+      }
+    });
   }
 
   applyFilter(event: Event) {
@@ -58,23 +62,39 @@ export class UsersComponent implements OnInit {
     }
   }
 
-  addUser() {
-    // Implement add user logic
-    console.log('Add new user');
+  deleteUser(user: User) {
+    if (confirm(`${user.username} kullanıcısını silmek istediğinizden emin misiniz?`)) {
+      this.adminService.deleteUser(user.id).subscribe({
+        next: () => {
+          this.snackBar.open('Kullanıcı başarıyla silindi', 'Kapat', {
+            duration: 3000
+          });
+          this.loadUsers();
+        },
+        error: (error) => {
+          console.error('Error deleting user:', error);
+          this.snackBar.open('Kullanıcı silinirken bir hata oluştu', 'Kapat', {
+            duration: 3000
+          });
+        }
+      });
+    }
   }
 
-  editUser(row: any) {
-    // Implement edit user logic
-    console.log('Edit user:', row);
-  }
-
-  deleteUser(row: any) {
-    // Implement delete user logic
-    console.log('Delete user:', row);
-  }
-
-  toggleStatus(row: any) {
-    // Implement toggle status logic
-    console.log('Toggle user status:', row);
+  toggleUserStatus(user: User) {
+    this.adminService.toggleUserStatus(user.id).subscribe({
+      next: () => {
+        this.snackBar.open('Kullanıcı durumu güncellendi', 'Kapat', {
+          duration: 3000
+        });
+        this.loadUsers();
+      },
+      error: (error) => {
+        console.error('Error toggling user status:', error);
+        this.snackBar.open('Kullanıcı durumu güncellenirken bir hata oluştu', 'Kapat', {
+          duration: 3000
+        });
+      }
+    });
   }
 } 

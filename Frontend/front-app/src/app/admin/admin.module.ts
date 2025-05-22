@@ -20,12 +20,14 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatOptionModule } from '@angular/material/core';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { AdminLayoutComponent } from './components/admin-layout/admin-layout.component';
 import { AdminLoginComponent } from './components/admin-login/admin-login.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { UsersComponent } from './components/users/users.component';
-import { PostsComponent } from './components/posts/posts.component';
+import { PostsComponent, PostViewDialog } from './components/posts/posts.component';
 import { ReportsComponent } from './components/reports/reports.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { AdminRoutingModule } from './admin-routing.module';
@@ -38,7 +40,8 @@ import { AdminRoutingModule } from './admin-routing.module';
     UsersComponent,
     PostsComponent,
     ReportsComponent,
-    SettingsComponent
+    SettingsComponent,
+    PostViewDialog
   ],
   imports: [
     CommonModule,
@@ -61,7 +64,9 @@ import { AdminRoutingModule } from './admin-routing.module';
     MatDialogModule,
     MatSelectModule,
     MatTabsModule,
-    MatOptionModule
+    MatOptionModule,
+    MatTooltipModule,
+    MatProgressSpinnerModule
   ]
 })
 export class AdminModule { }

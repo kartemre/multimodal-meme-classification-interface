@@ -1,70 +1,58 @@
-<div class="users-container">
+<div class="container">
   <div class="header">
-    <h1>Users</h1>
-    <button mat-raised-button color="primary" (click)="addUser()">
-      <mat-icon>add</mat-icon>
-      Add User
-    </button>
-  </div>
-
-  <div class="filter-container">
+    <h1>Kullanıcı Yönetimi</h1>
     <mat-form-field>
-      <mat-label>Filter</mat-label>
-      <input matInput (keyup)="applyFilter($event)" placeholder="Search users..." #input>
+      <mat-label>Filtrele</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Kullanıcı ara..." #input>
     </mat-form-field>
   </div>
 
-  <div class="table-container mat-elevation-z8">
+  <div class="mat-elevation-z8">
     <table mat-table [dataSource]="dataSource" matSort>
       <!-- ID Column -->
       <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
-        <td mat-cell *matCellDef="let row">{{row.id}}</td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+        <td mat-cell *matCellDef="let user"> {{user.id}} </td>
       </ng-container>
 
       <!-- Username Column -->
       <ng-container matColumnDef="username">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Username</th>
-        <td mat-cell *matCellDef="let row">{{row.username}}</td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Kullanıcı Adı </th>
+        <td mat-cell *matCellDef="let user"> {{user.username}} </td>
       </ng-container>
 
       <!-- Email Column -->
       <ng-container matColumnDef="email">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
-        <td mat-cell *matCellDef="let row">{{row.email}}</td>
-      </ng-container>
-
-      <!-- Role Column -->
-      <ng-container matColumnDef="role">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Role</th>
-        <td mat-cell *matCellDef="let row">
-          <mat-chip [color]="row.role === 'admin' ? 'primary' : 'accent'" selected>
-            {{row.role}}
-          </mat-chip>
-        </td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> E-posta </th>
+        <td mat-cell *matCellDef="let user"> {{user.email}} </td>
       </ng-container>
 
       <!-- Status Column -->
-      <ng-container matColumnDef="status">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
-        <td mat-cell *matCellDef="let row">
-          <mat-slide-toggle
-            [checked]="row.status === 'active'"
-            (change)="toggleStatus(row)"
-            color="primary">
-            {{row.status}}
-          </mat-slide-toggle>
+      <ng-container matColumnDef="isActive">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Durum </th>
+        <td mat-cell *matCellDef="let user">
+          <mat-chip-list>
+            <mat-chip [color]="user.isActive ? 'primary' : 'warn'" selected>
+              {{user.isActive ? 'Aktif' : 'Pasif'}}
+            </mat-chip>
+          </mat-chip-list>
         </td>
+      </ng-container>
+
+      <!-- Created At Column -->
+      <ng-container matColumnDef="createdAt">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Kayıt Tarihi </th>
+        <td mat-cell *matCellDef="let user"> {{user.createdAt | date:'dd/MM/yyyy HH:mm'}} </td>
       </ng-container>
 
       <!-- Actions Column -->
       <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef>Actions</th>
-        <td mat-cell *matCellDef="let row">
-          <button mat-icon-button color="primary" (click)="editUser(row)" matTooltip="Edit User">
-            <mat-icon>edit</mat-icon>
+        <th mat-header-cell *matHeaderCellDef> İşlemler </th>
+        <td mat-cell *matCellDef="let user">
+          <button mat-icon-button color="primary" (click)="toggleUserStatus(user)" matTooltip="Durumu Değiştir">
+            <mat-icon>{{user.isActive ? 'block' : 'check_circle'}}</mat-icon>
           </button>
-          <button mat-icon-button color="warn" (click)="deleteUser(row)" matTooltip="Delete User">
+          <button mat-icon-button color="warn" (click)="deleteUser(user)" matTooltip="Sil">
             <mat-icon>delete</mat-icon>
           </button>
         </td>
@@ -72,8 +60,18 @@
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+      <!-- Row shown when there is no matching data. -->
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="6">Arama kriterlerine uygun veri bulunamadı "{{input.value}}"</td>
+      </tr>
     </table>
 
-    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Sayfa seç"></mat-paginator>
+  </div>
+
+  <!-- Loading Spinner -->
+  <div class="loading-shade" *ngIf="isLoading">
+    <mat-spinner></mat-spinner>
   </div>
 </div> 

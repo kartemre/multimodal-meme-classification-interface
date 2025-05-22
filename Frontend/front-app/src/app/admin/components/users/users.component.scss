@@ -1,25 +1,72 @@
-.users-container {
-  padding: 24px;
+.container {
+  padding: 20px;
+  position: relative;
+  min-height: 400px;
 }
 
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 
   h1 {
     margin: 0;
     font-size: 24px;
     font-weight: 500;
-    color: #333;
   }
 
-  button {
-    mat-icon {
-      margin-right: 8px;
-    }
+  mat-form-field {
+    width: 300px;
   }
+}
+
+.mat-elevation-z8 {
+  overflow: auto;
+  border-radius: 4px;
+}
+
+table {
+  width: 100%;
+}
+
+.mat-column-actions {
+  width: 120px;
+  text-align: center;
+}
+
+.mat-column-id {
+  width: 80px;
+}
+
+.mat-column-isActive {
+  width: 120px;
+}
+
+.mat-column-createdAt {
+  width: 150px;
+}
+
+.loading-shade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mat-chip {
+  min-width: 80px;
+  justify-content: center;
+}
+
+.mat-mdc-row:hover {
+  background-color: rgba(0, 0, 0, 0.04);
 }
 
 .filter-container {
@@ -28,29 +75,6 @@
   mat-form-field {
     width: 100%;
     max-width: 400px;
-  }
-}
-
-.table-container {
-  overflow: auto;
-
-  table {
-    width: 100%;
-  }
-
-  .mat-mdc-row {
-    &:hover {
-      background-color: rgba(0, 0, 0, 0.04);
-    }
-  }
-
-  .mat-mdc-header-cell {
-    font-weight: 500;
-    color: #333;
-  }
-
-  .mat-mdc-cell {
-    color: #666;
   }
 }
 
@@ -63,25 +87,4 @@ mat-chip {
 
 mat-slide-toggle {
   margin: 8px 0;
-}
-
-.mat-column-actions {
-  width: 120px;
-  text-align: center;
-
-  button {
-    margin: 0 4px;
-  }
-}
-
-.mat-column-id {
-  width: 80px;
-}
-
-.mat-column-role {
-  width: 120px;
-}
-
-.mat-column-status {
-  width: 150px;
 } 

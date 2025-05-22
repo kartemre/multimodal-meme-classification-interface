@@ -1,91 +1,99 @@
-.posts-container {
-  padding: 24px;
+.container {
+  padding: 20px;
+  position: relative;
+  min-height: 400px;
 }
 
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 
   h1 {
     margin: 0;
     font-size: 24px;
     font-weight: 500;
-    color: #333;
   }
-
-  button {
-    mat-icon {
-      margin-right: 8px;
-    }
-  }
-}
-
-.filter-container {
-  margin-bottom: 24px;
 
   mat-form-field {
-    width: 100%;
-    max-width: 400px;
+    width: 300px;
   }
 }
 
-.table-container {
+.mat-elevation-z8 {
   overflow: auto;
-
-  table {
-    width: 100%;
-  }
-
-  .mat-mdc-row {
-    &:hover {
-      background-color: rgba(0, 0, 0, 0.04);
-    }
-  }
-
-  .mat-mdc-header-cell {
-    font-weight: 500;
-    color: #333;
-  }
-
-  .mat-mdc-cell {
-    color: #666;
-  }
+  border-radius: 4px;
 }
 
-mat-chip {
-  &.mat-mdc-chip {
-    min-height: 24px;
-    font-size: 12px;
-  }
-}
-
-mat-slide-toggle {
-  margin: 8px 0;
+table {
+  width: 100%;
 }
 
 .mat-column-actions {
-  width: 150px;
+  width: 120px;
   text-align: center;
-
-  button {
-    margin: 0 4px;
-  }
 }
 
 .mat-column-id {
   width: 80px;
 }
 
-.mat-column-category {
-  width: 120px;
-}
-
-.mat-column-status {
+.mat-column-createdAt {
   width: 150px;
 }
 
-.mat-column-createdAt {
-  width: 120px;
+.text-cell {
+  max-width: 300px;
+  
+  .text-content {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    
+    .image-indicator {
+      display: flex;
+      align-items: center;
+      color: #666;
+      
+      mat-icon {
+        font-size: 18px;
+        width: 18px;
+        height: 18px;
+      }
+    }
+  }
+}
+
+.loading-shade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mat-mdc-row:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+// Dialog styles
+::ng-deep .mat-mdc-dialog-container {
+  .mat-mdc-dialog-content {
+    max-height: 70vh;
+  }
+
+  img {
+    border-radius: 4px;
+    margin-bottom: 16px;
+  }
+
+  p {
+    margin: 8px 0;
+  }
 } 

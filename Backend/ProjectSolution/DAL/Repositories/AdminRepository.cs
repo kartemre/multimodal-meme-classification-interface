@@ -43,7 +43,10 @@ namespace DAL.Repositories
         {
             var user = await _context.AppUsers.FindAsync(id);
             if (user == null) return false;
-            _context.AppUsers.Remove(user);
+            user.IsActive = false;
+            user.UpdatedTime = System.DateTime.UtcNow;
+            user.DeletedTime = System.DateTime.UtcNow;
+            _context.AppUsers.Update(user);
             await _context.SaveChangesAsync();
             return true;
         }
@@ -53,6 +56,11 @@ namespace DAL.Repositories
             var user = await _context.AppUsers.FindAsync(id);
             if (user == null) return false;
             user.IsActive = !user.IsActive;
+            user.UpdatedTime = System.DateTime.UtcNow;
+            if (user.IsActive)
+            {
+                user.DeletedTime = null;
+            }
             await _context.SaveChangesAsync();
             return true;
         }
@@ -61,6 +69,7 @@ namespace DAL.Repositories
         {
             return await _context.Posts
                 .Include(p => p.User)
+                .Where(p => p.IsActive)
                 .ToListAsync();
         }
 
@@ -68,7 +77,9 @@ namespace DAL.Repositories
         {
             var post = await _context.Posts.FindAsync(id);
             if (post == null) return false;
-            _context.Posts.Remove(post);
+            post.IsActive = false;
+            post.DeletedTime = System.DateTime.UtcNow;
+            _context.Posts.Update(post);
             await _context.SaveChangesAsync();
             return true;
         }
