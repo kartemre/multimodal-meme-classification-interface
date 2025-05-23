@@ -1,3 +1,8 @@
+using System;
+using System.Threading.Tasks;
+using System.Net.Http;
+using System.Text.Json;
+using System.Collections.Generic;
 using BLL.DTOs;
 using BLL.Exceptions;
 using BLL.Interfaces;
@@ -5,6 +10,7 @@ using DAL.Interfaces;
 using Entities.Models;
 using Entities.Enums;
 using Microsoft.Extensions.Logging;
+using System.Text.Json.Serialization;
 
 namespace BLL.Services
 {
@@ -13,15 +19,19 @@ namespace BLL.Services
         private readonly IPostRepository _postRepository;
         private readonly IUserRepository _userRepository;
         private readonly ILogger<PostService> _logger;
+        private readonly HttpClient _httpClient;
+        private const string FlaskApiUrl = "http://192.168.1.5:5000/predict";
 
         public PostService(
             IPostRepository postRepository,
             IUserRepository userRepository,
-            ILogger<PostService> logger)
+            ILogger<PostService> logger,
+            HttpClient httpClient)
         {
             _postRepository = postRepository;
             _userRepository = userRepository;
             _logger = logger;
+            _httpClient = httpClient;
         }
 
         public async Task<PostDto> CreatePostAsync(CreatePostDto createPostDto)
@@ -32,11 +42,31 @@ namespace BLL.Services
                 if (user == null)
                     throw new BusinessException("Kullanıcı bulunamadı.");
 
+                // Flask API'ye istek at
+                var content = new FormUrlEncodedContent(new[]
+                {
+                    new KeyValuePair<string, string>("image", createPostDto.ImageBase64)
+                });
+
+                var response = await _httpClient.PostAsync(FlaskApiUrl, content);
+                response.EnsureSuccessStatusCode();
+
+                var responseContent = await response.Content.ReadAsStringAsync();
+                var options = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                };
+                var result = JsonSerializer.Deserialize<PredictionResponse>(responseContent, options);
+
+                // IsActive değerini belirle
+                bool isActive = result?.Prediction?.ToLower() != "offensive";
+
                 var post = new Post
                 {
                     Text = createPostDto.Text,
                     ImageData = createPostDto.ImageBase64,
-                    UserId = createPostDto.UserId
+                    UserId = createPostDto.UserId,
+                    IsActive = isActive
                 };
 
                 await _postRepository.AddAsync(post);
@@ -48,7 +78,8 @@ namespace BLL.Services
                     ImageBase64 = post.ImageData,
                     UserId = post.UserId,
                     UserName = user.UserName,
-                    CreatedAt = post.CreatedTime
+                    CreatedAt = post.CreatedTime,
+                    IsActive = post.IsActive
                 };
             }
             catch (BusinessException)
@@ -74,7 +105,8 @@ namespace BLL.Services
                     ImageBase64 = p.ImageData,
                     UserId = p.UserId,
                     UserName = p.User.UserName,
-                    CreatedAt = p.CreatedTime
+                    CreatedAt = p.CreatedTime,
+                    IsActive = p.IsActive
                 }).ToList();
             }
             catch (Exception ex)
@@ -94,8 +126,15 @@ namespace BLL.Services
                 ImageBase64 = p.ImageData,
                 UserId = p.UserId,
                 UserName = p.User?.UserName,
-                CreatedAt = p.CreatedTime
+                CreatedAt = p.CreatedTime,
+                IsActive = p.IsActive
             }).ToList();
         }
+    }
+
+    public class PredictionResponse
+    {
+        [JsonPropertyName("prediction")]
+        public string Prediction { get; set; }
     }
 } 

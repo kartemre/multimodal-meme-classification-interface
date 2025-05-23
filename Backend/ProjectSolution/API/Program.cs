@@ -81,6 +81,9 @@ builder.Services.AddCors(options =>
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IPostService, PostService>();
 
+// Add HttpClient
+builder.Services.AddHttpClient<IPostService, PostService>();
+
 builder.Services.AddBLLServices(connectionString);
 
 var app = builder.Build();
