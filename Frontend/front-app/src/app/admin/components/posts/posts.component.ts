@@ -27,10 +27,14 @@ interface Post {
 export class PostsComponent implements OnInit {
   displayedColumns: string[] = ['id', 'title', 'author', 'createdAt', 'actions'];
   dataSource: MatTableDataSource<Post>;
+  offensiveDataSource: MatTableDataSource<Post> = new MatTableDataSource<Post>([]);
   isLoading = false;
+  isOffensiveLoading = false;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild('offensivePaginator') offensivePaginator!: MatPaginator;
+  @ViewChild('offensiveSort') offensiveSort!: MatSort;
 
   constructor(
     private adminService: AdminService,
@@ -42,11 +46,14 @@ export class PostsComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadPosts();
+    this.loadOffensivePosts();
   }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+    this.offensiveDataSource.paginator = this.offensivePaginator;
+    this.offensiveDataSource.sort = this.offensiveSort;
   }
 
   loadPosts() {
@@ -73,6 +80,33 @@ export class PostsComponent implements OnInit {
           duration: 3000
         });
         this.isLoading = false;
+      }
+    });
+  }
+
+  loadOffensivePosts() {
+    this.isOffensiveLoading = true;
+    this.adminService.getOffensivePosts().subscribe({
+      next: (posts: any[]) => {
+        const mappedPosts: Post[] = posts.map(post => ({
+          id: post.id,
+          title: post.title || '',
+          imageBase64: post.imageBase64 || post.image || '',
+          createdAt: post.createdAt,
+          author: post.author || '',
+          likes: post.likes ?? 0,
+          comments: post.comments ?? 0,
+          isLiked: post.isLiked ?? false
+        }));
+        this.offensiveDataSource.data = mappedPosts;
+        this.isOffensiveLoading = false;
+      },
+      error: (error) => {
+        console.error('Error loading offensive posts:', error);
+        this.snackBar.open('Offensive gönderiler yüklenirken bir hata oluştu', 'Kapat', {
+          duration: 3000
+        });
+        this.isOffensiveLoading = false;
       }
     });
   }

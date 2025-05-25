@@ -16,6 +16,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatDialogModule } from '@angular/material/dialog';
 
 // Components
 import { AppRoutingModule } from './app-routing.module';
@@ -30,6 +31,7 @@ import { HomeComponent } from './components/home/home.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { CreatePostComponent } from './components/create-post/create-post.component';
+import { MessageDialogComponent } from './components/create-post/message-dialog.component';
 
 // Services
 import { AuthService } from './services/auth.service';
@@ -47,7 +49,8 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     HomeComponent,
     ForgotPasswordComponent,
     ResetPasswordComponent,
-    CreatePostComponent
+    CreatePostComponent,
+    MessageDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -66,7 +69,8 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     MatSnackBarModule,
     MatToolbarModule,
     MatMenuModule,
-    MatDividerModule
+    MatDividerModule,
+    MatDialogModule
   ],
   providers: [
     AuthService,

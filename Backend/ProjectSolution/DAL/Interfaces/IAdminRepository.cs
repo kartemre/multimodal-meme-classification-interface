@@ -14,5 +14,6 @@ namespace DAL.Interfaces
 
         Task<List<Post>> GetAllPostsAsync();
         Task<bool> DeletePostAsync(int id);
+        Task<List<Post>> GetPostsByActiveStatusAsync(bool isActive);
     }
 } 

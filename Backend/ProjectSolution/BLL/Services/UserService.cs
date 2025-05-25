@@ -67,6 +67,12 @@ namespace BLL.Services
             var user = await _userRepository.GetByUsernameAsync(request.Username);
             if (user == null || !BCrypt.Net.BCrypt.Verify(request.Password, user.Password))
                 throw new BusinessException("Invalid username or password.");
+            /*
+            if (user.Profile.Role == UserRoles.Admin)
+                throw new BusinessException("Admin cannot login as a user.");
+            */
+            if (user != null && user.IsActive == false)
+                throw new BusinessException("User is not active.");
 
             var token = GenerateJwtToken(user);
 

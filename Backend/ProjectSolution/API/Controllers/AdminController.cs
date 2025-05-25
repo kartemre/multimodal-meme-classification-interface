@@ -83,5 +83,13 @@ namespace API.Controllers
                 return Ok(new { message = "Post başarıyla silindi" });
             return NotFound(new { message = "Post bulunamadı" });
         }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet("posts/offensive")]
+        public async Task<IActionResult> GetOffensivePosts()
+        {
+            var posts = await _adminService.GetOffensivePostsAsync();
+            return Ok(posts);
+        }
     }
 } 

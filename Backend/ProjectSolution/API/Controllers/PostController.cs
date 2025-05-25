@@ -34,6 +34,16 @@ namespace ChatApi.Controllers
                 request.UserId = userId; // Kullanıcı ID'sini DTO'ya ekliyoruz
                 
                 var result = await _postService.CreatePostAsync(request);
+                
+                if (!result.IsActive)
+                {
+                    return Ok(new { 
+                        success = false, 
+                        message = "Gönderiniz uygunsuz içerik içermesi sebebiyle paylaşılamıyor.",
+                        data = result 
+                    });
+                }
+
                 return Ok(new { 
                     success = true, 
                     message = "Post başarıyla oluşturuldu.",

@@ -22,6 +22,8 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatOptionModule } from '@angular/material/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AdminAuthInterceptor } from './interceptors/admin-auth.interceptor';
 
 import { AdminLayoutComponent } from './components/admin-layout/admin-layout.component';
 import { AdminLoginComponent } from './components/admin-login/admin-login.component';
@@ -67,6 +69,9 @@ import { AdminRoutingModule } from './admin-routing.module';
     MatOptionModule,
     MatTooltipModule,
     MatProgressSpinnerModule
+  ],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AdminAuthInterceptor, multi: true }
   ]
 })
 export class AdminModule { }

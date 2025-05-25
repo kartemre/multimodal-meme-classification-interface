@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { PostService } from '../../services/post.service';
 import { Post } from '../../models/post.model';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -12,7 +14,11 @@ export class HomeComponent implements OnInit {
   isLoading = true;
   error: string | null = null;
 
-  constructor(private postService: PostService) {}
+  constructor(
+    private postService: PostService,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.loadPosts();
@@ -29,7 +35,12 @@ export class HomeComponent implements OnInit {
       },
       error: (error: any) => {
         console.error('Error loading posts:', error);
-        this.error = 'Gönderiler yüklenirken bir hata oluştu.';
+        if (error.status === 401) {
+          this.authService.logout();
+          this.router.navigate(['/login']);
+        } else {
+          this.error = 'Gönderiler yüklenirken bir hata oluştu.';
+        }
         this.isLoading = false;
       }
     });

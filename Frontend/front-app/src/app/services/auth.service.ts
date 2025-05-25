@@ -73,6 +73,8 @@ export class AuthService {
       return payload.username || null;
     } catch (error) {
       console.error('Token çözümleme hatası:', error);
+      // Token bozuksa otomatik logout
+      this.logout();
       return null;
     }
   }

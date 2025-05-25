@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PostService } from '../../services/post.service';
 import { Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog } from '@angular/material/dialog';
+import { MessageDialogComponent } from './message-dialog.component';
 
 @Component({
   selector: 'app-create-post',
@@ -21,7 +22,7 @@ export class CreatePostComponent {
     private fb: FormBuilder,
     private postService: PostService,
     private router: Router,
-    private snackBar: MatSnackBar
+    private dialog: MatDialog
   ) {
     this.postForm = this.fb.group({
       text: ['', [Validators.required, Validators.minLength(1)]]
@@ -32,9 +33,7 @@ export class CreatePostComponent {
     const file = event.target.files[0];
     if (file) {
       if (file.size > 5 * 1024 * 1024) { // 5MB limit
-        this.snackBar.open('Resim boyutu 5MB\'dan küçük olmalıdır.', 'Tamam', {
-          duration: 3000
-        });
+        this.showMessage('Hata', 'Resim boyutu 5MB\'dan küçük olmalıdır.');
         return;
       }
       this.selectedImage = file;
@@ -42,9 +41,7 @@ export class CreatePostComponent {
         this.imagePreview = await this.postService.convertImageToBase64(file);
       } catch (error) {
         console.error('Error converting image:', error);
-        this.snackBar.open('Resim yüklenirken bir hata oluştu.', 'Tamam', {
-          duration: 3000
-        });
+        this.showMessage('Hata', 'Resim yüklenirken bir hata oluştu.');
       }
     } else {
       this.selectedImage = null;
@@ -61,20 +58,29 @@ export class CreatePostComponent {
     return this.postForm.valid && this.imagePreview !== null;
   }
 
+  private showMessage(title: string, message: string): void {
+    const dialogRef = this.dialog.open(MessageDialogComponent, {
+      width: '400px',
+      data: { title, message }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.router.navigate(['/home']);
+      }
+    });
+  }
+
   async onSubmit() {
     this.showValidationMessage = true;
 
     if (!this.postForm.valid) {
-      this.snackBar.open('Lütfen bir metin girin.', 'Tamam', {
-        duration: 3000
-      });
+      this.showMessage('Hata', 'Lütfen bir metin girin.');
       return;
     }
 
     if (!this.imagePreview) {
-      this.snackBar.open('Lütfen bir resim seçin.', 'Tamam', {
-        duration: 3000
-      });
+      this.showMessage('Hata', 'Lütfen bir resim seçin.');
       return;
     }
 
@@ -90,15 +96,14 @@ export class CreatePostComponent {
         };
 
         await this.postService.createPost(postData).toPromise();
-        this.snackBar.open('Gönderi başarıyla paylaşıldı!', 'Tamam', {
-          duration: 3000
-        });
-        this.router.navigate(['/home']);
-      } catch (error) {
+        this.showMessage('Başarılı', 'Gönderiniz başarıyla paylaşıldı!');
+      } catch (error: any) {
         console.error('Error creating post:', error);
-        this.snackBar.open('Gönderi paylaşılırken bir hata oluştu.', 'Tamam', {
-          duration: 3000
-        });
+        const errorMessage = error.message === 'Gönderiniz uygunsuz içerik içermesi sebebiyle paylaşılamıyor.' 
+          ? 'Gönderiniz uygunsuz içerik içermesi sebebiyle paylaşılamıyor. Uygunsuz olduğunu düşünmüyorsanız SAFEBOOK destek ekibine ulaşabilirsiniz.'
+          : error.message || 'Gönderi paylaşılırken bir hata oluştu.';
+
+        this.showMessage('Hata', errorMessage);
       } finally {
         this.isLoading = false;
       }

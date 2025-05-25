@@ -131,4 +131,12 @@
     background-color: #ccc;
     cursor: not-allowed;
   }
+}
+
+::ng-deep .error-snackbar {
+  background: #f44336 !important;
+  color: white !important;
+  .mat-simple-snackbar-action {
+    color: white !important;
+  }
 } 

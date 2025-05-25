@@ -96,6 +96,11 @@ export class AdminService {
       .pipe(catchError(this.handleError));
   }
 
+  getOffensivePosts(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/posts/offensive`, this.getAdminAuthHeaders())
+      .pipe(catchError(this.handleError));
+  }
+
   private handleError(error: any) {
     console.error('API Error:', error);
     return throwError(() => error);

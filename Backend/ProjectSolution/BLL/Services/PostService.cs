@@ -20,7 +20,7 @@ namespace BLL.Services
         private readonly IUserRepository _userRepository;
         private readonly ILogger<PostService> _logger;
         private readonly HttpClient _httpClient;
-        private const string FlaskApiUrl = "http://192.168.1.5:5000/predict";
+        private const string FlaskApiUrl = "http://192.168.1.11:5000/predict";
 
         public PostService(
             IPostRepository postRepository,

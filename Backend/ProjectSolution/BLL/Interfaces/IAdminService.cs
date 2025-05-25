@@ -15,5 +15,6 @@ namespace BLL.Interfaces
         Task<bool> DeletePostAsync(int id);
 
         Task<LoginResponseDto> AdminLoginAsync(LoginRequestDto request);
+        Task<List<AdminPostDto>> GetOffensivePostsAsync();
     }
 } 

@@ -32,8 +32,13 @@ export class AdminLoginComponent {
       const { username, password } = this.loginForm.value;
       
       this.adminService.login(username, password).subscribe({
-        next: () => {
-          this.router.navigate(['/admin/dashboard']);
+        next: (response) => {
+          if (response && response.token) {
+            this.adminService.saveAdminToken(response.token);
+            this.router.navigate(['/admin/dashboard']);
+          } else {
+            this.snackBar.open('Login response does not contain a token.', 'Close', { duration: 3000 });
+          }
         },
         error: (error) => {
           this.snackBar.open(error.error?.message || 'Login failed. Please try again.', 'Close', {

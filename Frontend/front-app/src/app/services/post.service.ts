@@ -16,11 +16,13 @@ export interface PostDto {
   userId: number;
   userName: string;
   createdAt: Date;
+  isActive: boolean;
 }
 
 interface ApiResponse<T> {
   success: boolean;
   data: T;
+  message?: string;
 }
 
 @Injectable({
@@ -62,7 +64,7 @@ export class PostService {
           if (response.success) {
             return response.data;
           }
-          throw new Error('Post could not be created');
+          throw new Error(response.message || 'Post could not be created');
         })
       );
   }

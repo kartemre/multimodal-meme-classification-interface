@@ -109,5 +109,20 @@ namespace BLL.Services
         }
 
         public Task<bool> DeletePostAsync(int id) => _adminRepository.DeletePostAsync(id);
+
+        public async Task<List<AdminPostDto>> GetOffensivePostsAsync()
+        {
+            var posts = await _adminRepository.GetPostsByActiveStatusAsync(false);
+            return posts.Select(p => new AdminPostDto
+            {
+                Id = p.Id,
+                Title = p.Text.Length > 50 ? p.Text.Substring(0, 47) + "..." : p.Text,
+                Author = p.User?.UserName ?? "Unknown",
+                Category = "General",
+                Status = p.IsActive ? "published" : "draft",
+                CreatedAt = p.CreatedTime.ToString("yyyy-MM-ddTHH:mm:ss"),
+                ImageBase64 = p.ImageData
+            }).ToList();
+        }
     }
 } 
