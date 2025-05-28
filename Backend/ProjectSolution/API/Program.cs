@@ -75,6 +75,10 @@ builder.Services.AddCors(options =>
     //          .AllowAnyMethod();
     //});
 });
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.ListenAnyIP(5298); // Listen on port 5298 for HTTP requests
+});
 
 //builder.Services.AddDbContext<MyContext>(options => options.UseSqlServer(connectionString));
 

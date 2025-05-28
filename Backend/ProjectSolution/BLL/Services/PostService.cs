@@ -45,7 +45,8 @@ namespace BLL.Services
                 // Flask API'ye istek at
                 var content = new FormUrlEncodedContent(new[]
                 {
-                    new KeyValuePair<string, string>("image", createPostDto.ImageBase64)
+                    new KeyValuePair<string, string>("image", createPostDto.ImageBase64),
+                    new KeyValuePair<string, string>("text", createPostDto.Text)
                 });
 
                 var response = await _httpClient.PostAsync(FlaskApiUrl, content);
