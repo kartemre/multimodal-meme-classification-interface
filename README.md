@@ -443,7 +443,7 @@ services.AddDistributedRedisCache(options => { });
 
 ## 🤖 YAPAY ZEKA (AI) MODÜLÜ — Detaylı Açıklama
 
-> **⚠️ ÖNEMLI**: AI modülü **Abdulkadir Sönmez Işık tarafından** geliştirilmiştir.
+> **⚠️ ÖNEMLI**: AI modülü **Abdulkadir Sönmezışık tarafından** geliştirilmiştir.
 
 ### Modülün Amacı
 
@@ -791,12 +791,12 @@ Bu proje bir üniversite bitirme projesi olup, geliştirme sürecindeki **katkı
 |-------|-------------|---------|
 | **Frontend (Angular)** | **Emre Kart** | Tüm UI/UX tasarımı, component geliştirme, service layer, routing, state management, API entegrasyonu |
 | **Backend (.NET Core)** | **Emre Kart** | RESTful API, veritabanı tasarımı, business logic, authentication, authorization, AI entegrasyonu |
-| **AI Modülü (ML/DL)** | **Abdulkadir Sönmez Işık** | Multimodal classification model, training pipeline, model optimization, FastAPI servisi |
+| **AI Modülü (ML/DL)** | **Abdulkadir Sönmezışık** | Multimodal classification model, training pipeline, model optimization, FastAPI servisi |
 
 ### İletişim
 
 - **Emre Kart** — Frontend & Backend Developer
-- **Abdulkadir Sönmez Işık** — AI/ML Engineer
+- **Abdulkadir Sönmezışık** — AI/ML Engineer
 
 ---
 
