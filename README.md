@@ -61,26 +61,26 @@ Proje, **3 katmanlı modern mimari** kullanmaktadır:
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                      FRONTEND (Angular)                      │
-│  • Component-based architecture                              │
-│  • Service layer for API communication                       │
-│  • Reactive forms & state management                         │
+│                      FRONTEND (Angular)                     │
+│  • Component-based architecture                             │
+│  • Service layer for API communication                      │
+│  • Reactive forms & state management                        │
 └────────────────────────┬────────────────────────────────────┘
                          │ HTTP/REST
                          ▼
 ┌─────────────────────────────────────────────────────────────┐
-│                    BACKEND (.NET Core API)                   │
-│  • Controller → Service → Repository pattern                 │
-│  • Business logic & data validation                          │
-│  • Authentication & Authorization                            │
+│                    BACKEND (.NET Core API)                  │
+│  • Controller → Service → Repository pattern                │
+│  • Business logic & data validation                         │
+│  • Authentication & Authorization                           │
 └────────────────────────┬────────────────────────────────────┘
                          │ API Calls
                          ▼
 ┌─────────────────────────────────────────────────────────────┐
-│                      AI MODÜLÜ (Python)                      │
-│  • Multimodal classification models                          │
-│  • Image & text processing                                   │
-│  • Model inference & prediction                              │
+│                      AI MODÜLÜ (Python)                     │
+│  • Multimodal classification models                         │
+│  • Image & text processing                                  │
+│  • Model inference & prediction                             │
 └─────────────────────────────────────────────────────────────┘
 ```
 
